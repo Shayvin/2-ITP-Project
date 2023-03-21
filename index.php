@@ -24,6 +24,14 @@ $site = @$_GET['site'];
     case 'home':
       include 'inc/home.php';
       break;
+
+    case 'login':
+      include 'inc/login.php';
+      break;
+
+    case 'register':
+      include 'inc/register.php';
+      break;
   }
   // TODO include your sites
   ?>
