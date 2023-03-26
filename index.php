@@ -17,6 +17,9 @@ $site = @$_GET['site'];
 <body>
   <!-- TODO include navbar.php -->
   <?php
+    include 'inc/navbar.php';
+  ?>
+  <?php
   if ($site == '') {
     header('Location: index.php?site=home');
   }
@@ -32,6 +35,15 @@ $site = @$_GET['site'];
     case 'register':
       include 'inc/register.php';
       break;
+
+    case 'impressum':
+      include 'inc/impressum.php';
+      break;
+
+    case 'logout':
+      include 'inc/logout.php';
+      break;
+      
   }
   // TODO include your sites
   ?>
