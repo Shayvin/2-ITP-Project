@@ -33,7 +33,7 @@
           {
             session_start(); // Session start
             $_SESSION["username"] = $row["USERNAME"]; // Setzt die Session Variable gleich den Username aus der DB
-            $url = "index.php?site=impressum"; // Variable die noch "profil.php?id=%USERNAME%" an die URL ranhängt
+            $url = "index.php?site=home"; // Variable die noch "profil.php?id=%USERNAME%" an die URL ranhängt
             header("Location: $url"); // Weiterleitung an url
           }
           else

@@ -48,7 +48,7 @@
       <p class="lead">Unser Expertenteam ist bestrebt, Ihnen während des gesamten Kaufprozesses einen hervorragenden Kundenservice und Support zu bieten. Wir überwachen ständig unsere Bestände und Preise, um sicherzustellen, dass wir Ihnen das bestmögliche Preis-Leistungs-Verhältnis bieten können.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
         <a type="button" class="btn btn-primary btn-lg" href="#">Häufige Fragen</a>
-        <a type="button" class="btn btn-outline-secondary btn-lg" href="index.php?site=impressum">Impressum</a>
+        <a type="button" class="btn btn-outline-secondary btn-lg" href="index.php?site=impressum">Kontakt</a>
       </div>
     </div>
     <div class="col-md-5">

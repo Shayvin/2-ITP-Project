@@ -39,6 +39,11 @@ $site = @$_GET['site'];
     case 'impressum':
       include 'inc/impressum.php';
       break;
+
+    case 'logout':
+      include 'inc/logout.php';
+      break;
+      
   }
   // TODO include your sites
   ?>
