@@ -27,7 +27,7 @@
                   <a class="nav-link" href="index.php?site=login">Login</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">FAQ</a>
+                  <a class="nav-link" href="index.php?site=hilfe">Häufige Fragen</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="index.php?site=impressum">Impressum</a>
@@ -43,7 +43,7 @@
                 <li class="nav-item navcenter"><a class="nav-link" href="index.php?site=logout">Logout</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">FAQ</a>
+                  <a class="nav-link" href="index.php?site=hilfe">Häufige Fragen</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="index.php?site=impressum">Impressum</a>

@@ -28,6 +28,10 @@ $site = @$_GET['site'];
       include 'inc/home.php';
       break;
 
+      case 'hilfe':
+        include 'inc/hilfe.php';
+        break;
+
     case 'login':
       include 'inc/login.php';
       break;
