@@ -49,6 +49,9 @@
                   <a class="nav-link" href="index.php?site=impressum">Impressum</a>
               </li>
               <li class="nav-item">
+                  <a class="nav-link" href="index.php?site=profile">Profil</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link disabled">Logged in as: <?php echo $_SESSION["username"] // gibt den Username aus?></a>
               </li>
                 <?php } ?>
