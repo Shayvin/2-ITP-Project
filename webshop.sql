@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 11. Apr 2023 um 19:00
+-- Erstellungszeit: 17. Apr 2023 um 13:24
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.1.6
 
