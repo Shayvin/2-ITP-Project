@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/res/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-</head>
-<body>
 <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php?site=home">Component Corner</a>
@@ -40,24 +30,35 @@
               {
                 ?>
                 </li>
-                <li class="nav-item navcenter"><a class="nav-link" href="index.php?site=logout">Logout</a>
-              </li>
               <li class="nav-item">
                   <a class="nav-link" href="index.php?site=hilfe">Häufige Fragen</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="index.php?site=impressum">Impressum</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="index.php?site=profile">Profil</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Logged in as: <?php echo $_SESSION["username"] // gibt den Username aus?></a>
-              </li>
-                <?php } ?>
+              <?php
+              require("./config/dbaccess.php");
+              $stmt = $mysql->prepare("SELECT IMAGE FROM accounts WHERE USERNAME = :username");
+              $stmt->bindParam(":username", $_SESSION["username"]);
+              $stmt->execute();
+              $row = $stmt->fetch();
+              $image_name = $row["IMAGE"] ?? "default.jpg";
+              $image_path = "./res/img/user/" . $image_name;
+              ?>
+              <div class="dropstart">
+                <li class="nav-item">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<?php echo $image_path ?>" width="30" height="30" alt="">
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link" href="index.php?site=profile">Profil</a>
+                    <a class="nav-link" href="index.php?site=logout">Logout</a>
+                    <a class="nav-link disabled">Logged in as: <?php echo $_SESSION["username"] ?></a>
+                  </div>
+                </li>
+              </div>
+              <?php } ?>
           </ul>
         </div>
       </div>
   </nav>
-</body>
-</html>
