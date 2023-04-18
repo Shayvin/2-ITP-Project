@@ -1,30 +1,54 @@
+<?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+  if(isset($_SESSION["username"])) //if(isset($_GET["id"])) // Wenn get variable in der URL gesetzt   if(isset($_SESSION["username"]))
+  {
+    //if(!empty($_GET["id"])) // & wenn sie nicht leer ist
+    
+        require("./config/dbaccess.php"); // DB Connector eingebunden
+        if(isset($_POST["submit"])) // Wenn submit gedrückt wurde
+        {
+            $stmt = $mysql->prepare("UPDATE accounts SET VORNAME = :firstname, NACHNAME = :lastname, ADRESSE = :adresse, PLZ = :plz, EMAIL = :email WHERE USERNAME = :id"); // Prepare SQL Statement
+            $stmt->execute(array(":firstname" => $_POST["firstname"], ":lastname" => $_POST["lastname"], ":adresse" => $_POST["adresse"], ":plz" => $_POST["plz"], ":email" => $_POST["email"], ":id" => $_SESSION["username"])); // Setze lokale Variablen gleich der POST/GET und führe aus
+            
+            echo '<p class="alert">Das Profil wurde aktualisiert</p>';
+        }
+        $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :id"); // Check Username
+        $stmt->execute(array(":id" => $_SESSION["username"])); // Setze SESSION gleich mit lokaler Variable und führe aus
+        $row = $stmt->fetch(); // Nimmt die nächste Reihe vom ergebnis vorhin
+  }
+?>
+
 <main class="form-signin w-100 m-auto">
-  <form method="post">
+  <form enctype="multipart/form-data" method="post">
     <h1 class="h3 mb-3 fw-normal">Profil</h1>
     <div class="form-floating">
-      <input type="text" class="form-control" name="username" id="username" placeholder="John">
-      <label for="username">Nutzername</label>
-    </div>
-    <div class="form-floating">
-      <input type="text" class="form-control" name="firstname" id="firstname" placeholder="John">
+      <input type="text" class="form-control" name="firstname" value="<?php echo $row["VORNAME"] ?>" id="firstname" placeholder="John">
       <label for="firstName">Vorname</label>
     </div>
     <div class="form-floating">
-      <input type="text" class="form-control" name="lastname" name="lastname" placeholder="Doe">
+      <input type="text" class="form-control" name="lastname" value="<?php echo $row["NACHNAME"] ?>" id="lastname" placeholder="Doe">
       <label for="lastName">Nachname</label>
     </div>
     <div class="form-floating">
-      <input type="text" class="form-control" name="adresse" id="adresse" placeholder="name@example.com">
+      <input type="text" class="form-control" name="adresse" value="<?php echo $row["ADRESSE"] ?>" id="adresse" placeholder="name@example.com">
       <label for="adresse">Adresse</label>
     </div>
     <div class="form-floating">
-      <input type="text" class="form-control" name="plz" id="plz" placeholder="name@example.com">
+      <input type="text" class="form-control" name="plz" value="<?php echo $row["PLZ"] ?>" id="plz" placeholder="name@example.com">
       <label for="plz">PLZ</label>
     </div>
     <div class="form-floating">
-      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+      <input type="email" class="form-control" name="email" value="<?php echo $row["EMAIL"] ?>" id="email" placeholder="name@example.com">
       <label for="email">Email-Adresse</label>
     </div>
+    <div class="col-auto button">
+    <button id="button-submit" class="btn btn-primary btn-lg" name="submit" type="submit">Speichern</button>
+    </div>
+    </form>
+
+    <form method="post">
+    <h1 class="h3 mb-3 fw-normal">Passwort</h1>
     <div class="form-floating">
       <input type="password" class="form-control" name="password1" id="password1" placeholder="Password">
       <label for="password1">Password</label>
@@ -34,11 +58,38 @@
       <label for="password2">Password wiederholen</label>
     </div>
     <div class="col-auto button">
-    <button id="button-submit" class="btn btn-primary btn-lg" name="submit" type="submit">Speichern</button>
+    <button id="button-submit" class="btn btn-primary btn-lg" name="changepw" type="submit">Ändern</button>
     </div>
     </form>
 </main>
 <?php
-  // TODO: GET => fill form with data loaded from database
-  // TODO: POST => update databasse with form data
-    ?>
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    if(isset($_SESSION["username"])) // Überprüft ob SESSION Variable gesetzt ist
+    {
+      require("./config/dbaccess.php"); // DB Connector
+      $stmt = $mysql->prepare("SELECT * FROM accounts WHERE USERNAME = :id"); // Username überprüfen
+      $stmt->bindParam(":id", $_SESSION["username"]); // Binded SESSION variable mit lokaler
+      $stmt->execute(); // execute
+      $count = $stmt->rowCount(); // Zählt die Rows die vom letzten Statement zurückgegeben werden. In dem Fall 1 weil 1 User
+      if($count != 0) // Wenn ungleich 0
+      {
+          if(isset($_POST["changepw"])) // Wenn changepw button gedrückt
+          {
+              if($_POST["password1"] == $_POST["password2"]) // Kontrolliert ob eingegebene Passwörter übereinstimmen
+              {
+                  $hash = password_hash($_POST["password1"], PASSWORD_BCRYPT); // Hashed das eingegebene Passwort (Feld1) und speichert es in eine variable
+                  $stmt = $mysql->prepare("UPDATE accounts SET PASSWORT = :password1 WHERE USERNAME = :id"); // Updated den Eintrag in der Datenbank beim User
+                  $stmt->bindParam(":password1", $hash); // Binded den hashed Wert
+                  $stmt->bindParam(":id", $_SESSION["username"]); // Bindet SESSION mit variable
+                  $stmt->execute(); // execute
+                  echo '<p class="alert">Das Passwort wurde geändert</p>';
+              } 
+              else
+              {
+                echo '<p class="alert">Die angegebenen Passwörter stimmen nicht überein</p>';
+              }
+            }
+          }
+        }
+  ?>
