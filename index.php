@@ -55,6 +55,10 @@ $site = @$_GET['site'];
     case 'chart':
       include 'inc/chart.php';
       break;
+
+    case 'artikel':
+      include 'inc/artikel.php';
+      break;
       
   }
   ?>
