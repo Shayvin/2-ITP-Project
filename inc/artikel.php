@@ -23,3 +23,4 @@
       <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: 503</a>
     </div>
   </div>
+</div>
