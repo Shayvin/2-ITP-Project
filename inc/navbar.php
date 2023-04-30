@@ -37,6 +37,9 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="index.php?site=userverwaltung">Accounts verwalten</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="index.php?site=hilfe">Häufige Fragen</a>
           </li>
           <li class="nav-item">
