@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 function BinaryToYesNo($Bin){
     if($Bin==1)
     return 'Ja';
@@ -16,7 +19,6 @@ if(isset($_POST['edituser'])){
       $sql->bindParam(":username", $_POST["username"]);
       $sql->bindParam(":id", $_POST["id"]);
       $sql->execute();
-
     }
     if(!empty($_POST['vorname'])){
       $sql = $mysql->prepare("UPDATE accounts
@@ -34,11 +36,16 @@ if(isset($_POST['edituser'])){
       $sql->bindParam(":id", $_POST["id"]);
       $sql->execute();
     }
-    if(!empty($_POST['status'])){
-      $sql = $mysql->prepare("UPDATE accounts
-                      SET aktiv= :status
-                      WHERE id= :id");
-      $sql->bindParam(":status", $_POST["status"]);
+    if (isset($_POST['status'])) {
+      $status = $_POST['status'] == '1' ? 1 : 0;
+      $sql = $mysql->prepare("UPDATE accounts SET aktiv = :status WHERE id = :id");
+      $sql->bindParam(":status", $status);
+      $sql->bindParam(":id", $_POST["id"]);
+      $sql->execute();
+    }
+    if (isset($_POST['admin'])) {
+      $sql = $mysql->prepare("UPDATE accounts SET ROLE = :admin WHERE id = :id");
+      $sql->bindParam(":admin", $_POST['admin']);
       $sql->bindParam(":id", $_POST["id"]);
       $sql->execute();
     }
@@ -101,7 +108,7 @@ echo '
       <th scope="col">Aktiv</th>
     </tr>
   </thead>';
- $counter=-1;
+$counter=-1;
 while($row= $stmt->fetch()){
   ++$counter;
   $safedRow[$counter]=$row;}
@@ -151,7 +158,15 @@ for($i=0; $i<=$counter; ++$i){//also der index $i ist jeweils ein Nutzer
       <option value="0">Nein</option>
     </select>
   </div>
-  <div class="form-group col-md-11">
+  <div class="form-group col-md-1">
+  <label for="admin">Admin</label>
+  <select name="admin" id="admin" class="form-control">
+    <option value="none" selected disabled hidden>'.BinaryToYesNo($row[10]).'</option>
+    <option value="1">Ja</option>
+    <option value="0">Nein</option>
+  </select>
+</div>
+  <div class="form-group col-md-10">
     <label for="Email">E-mail Addresse</label>
     <input name="email" type="email" class="form-control" id="Email" placeholder="'.$row[4].'">
   </div>

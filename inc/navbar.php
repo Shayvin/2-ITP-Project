@@ -36,9 +36,17 @@
               </svg>
             </a>
           </li>
+          <?php 
+          require("./config/dbaccess.php");
+          $stmt = $mysql->prepare("SELECT ROLE FROM accounts WHERE USERNAME = :username");
+          $stmt->bindParam(":username", $_SESSION["username"]);
+          $stmt->execute();
+          $row = $stmt->fetch();
+          if ($row["ROLE"] == 1) { ?>
           <li class="nav-item">
             <a class="nav-link" href="index.php?site=userverwaltung">Accounts verwalten</a>
           </li>
+          <?php } ?>
           <li class="nav-item">
             <a class="nav-link" href="index.php?site=hilfe">Häufige Fragen</a>
           </li>
