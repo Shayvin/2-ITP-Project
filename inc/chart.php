@@ -3,7 +3,7 @@
     <div class="col col-md-8 col-lg-6">
     <div class="d-flex align-items-center justify-content-between mb-3">
       <h1>Warenkorb</h1>
-      <a class="btn btn-primary btn-lg">Zur Kassa</a>
+      <a class="btn btn-primary btn-lg" href="index.php?site=kassa">Zur Kassa</a>
     </div>
       <div class="row">
         <ul class="list-group list-group-flush mb-3">

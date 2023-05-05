@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 21, 2023 at 02:07 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Erstellungszeit: 05. Mai 2023 um 19:11
+-- Server-Version: 10.4.21-MariaDB
+-- PHP-Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `webshop`
+-- Datenbank: `webshop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accounts`
+-- Tabellenstruktur für Tabelle `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -37,21 +37,22 @@ CREATE TABLE `accounts` (
   `USERNAME` varchar(50) DEFAULT NULL,
   `AKTIV` int(1) NOT NULL DEFAULT 1,
   `ID` int(255) NOT NULL,
-  `IMAGE` varchar(255) NOT NULL DEFAULT 'default.jpg'
+  `IMAGE` varchar(255) NOT NULL DEFAULT 'default.jpg',
+  `ROLE` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `accounts`
+-- Daten für Tabelle `accounts`
 --
 
-INSERT INTO `accounts` (`VORNAME`, `NACHNAME`, `ADRESSE`, `PLZ`, `EMAIL`, `PASSWORT`, `USERNAME`, `AKTIV`, `ID`, `IMAGE`) VALUES
-('test', 'test', 'test 54', 1210, 'dominik@test.at', '$2y$10$/h0YxWzjBBrYswvuBTsa6us.l4Ee8HfW1MxTyIw1FtYtZRTMeLNYe', 'test', 1, 1, 'test.jpg'),
-('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 1, 2, 'default.jpg');
+INSERT INTO `accounts` (`VORNAME`, `NACHNAME`, `ADRESSE`, `PLZ`, `EMAIL`, `PASSWORT`, `USERNAME`, `AKTIV`, `ID`, `IMAGE`, `ROLE`) VALUES
+('test6', 'test', 'Test5', 1210, 'dominik@test.at', '$2y$10$/h0YxWzjBBrYswvuBTsa6us.l4Ee8HfW1MxTyIw1FtYtZRTMeLNYe', 'test', 1, 1, 'test.jpg', 1),
+('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 0, 2, 'default.jpg', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produkte`
+-- Tabellenstruktur für Tabelle `produkte`
 --
 
 CREATE TABLE `produkte` (
@@ -67,7 +68,7 @@ CREATE TABLE `produkte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `produkte`
+-- Daten für Tabelle `produkte`
 --
 
 INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `ID`, `MARKE`, `KATEGORIE`) VALUES
@@ -101,33 +102,33 @@ INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BES
 ('be quiet! Pure Rock 2 FX', 'Pure Rock 2 FX.jpg', 28, 45.00, 'Mit einem Light Wings 120mm PWM high-speed Lüfter, 150W TDP Kühlleistung, vier 6mm Hochleistungs-Heatpipes und der Möglichkeit, den Kühler mühelos von oben zu verbauen.', 15, 28, 'be quiet!', 'CPU-Kühler');
 
 --
--- Indexes for dumped tables
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `accounts`
+-- Indizes für die Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `produkte`
+-- Indizes für die Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   ADD PRIMARY KEY (`ID`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
+-- AUTO_INCREMENT für Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `produkte`
+-- AUTO_INCREMENT für Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;

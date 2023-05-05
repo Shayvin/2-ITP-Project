@@ -63,8 +63,12 @@ $site = @$_GET['site'];
       include 'inc/artikel.php';
       break;
 
-     case 'userverwaltung':
+    case 'userverwaltung':
       include 'inc/userverwaltung.php';
+      break;
+
+    case 'kassa':
+      include 'inc/kassa.php';
       break;
       
   }
