@@ -134,3 +134,8 @@ body {
   font-size: 15px;
   padding: 10px;
 }
+
+.wl-img {
+  max-width: 64px;
+  max-height: 64px;
+}
