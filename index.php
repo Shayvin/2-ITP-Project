@@ -20,7 +20,7 @@ $site = @$_GET['site'];
 
 <body>
   <?php
-    include 'inc/navbar.php';
+  include 'inc/navbar.php';
   ?>
   <?php
   if ($site == '') {
@@ -34,7 +34,7 @@ $site = @$_GET['site'];
     case 'hilfe':
       include 'inc/hilfe.php';
       break;
-    
+
     case 'profile':
       include 'inc/profile.php';
       break;
@@ -70,7 +70,10 @@ $site = @$_GET['site'];
     case 'kassa':
       include 'inc/kassa.php';
       break;
-      
+
+    case 'wishlist':
+      include 'inc/wishlist.php';
+      break;
   }
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
