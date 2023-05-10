@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Erstellungszeit: 05. Mai 2023 um 19:11
--- Server-Version: 10.4.21-MariaDB
--- PHP-Version: 8.1.6
+-- Host: 127.0.0.1
+-- Erstellungszeit: 10. Mai 2023 um 19:28
+-- Server-Version: 10.4.25-MariaDB
+-- PHP-Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -48,6 +48,54 @@ CREATE TABLE `accounts` (
 INSERT INTO `accounts` (`VORNAME`, `NACHNAME`, `ADRESSE`, `PLZ`, `EMAIL`, `PASSWORT`, `USERNAME`, `AKTIV`, `ID`, `IMAGE`, `ROLE`) VALUES
 ('test6', 'test', 'Test5', 1210, 'dominik@test.at', '$2y$10$/h0YxWzjBBrYswvuBTsa6us.l4Ee8HfW1MxTyIw1FtYtZRTMeLNYe', 'test', 1, 1, 'test.jpg', 1),
 ('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 0, 2, 'default.jpg', 0);
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `artikel_bestellungen`
+--
+
+CREATE TABLE `artikel_bestellungen` (
+  `bestellung_id` int(11) NOT NULL,
+  `artikel_id` int(11) NOT NULL,
+  `menge` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `bestellungen`
+--
+
+CREATE TABLE `bestellungen` (
+  `ID` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `datum` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `bewertungen`
+--
+
+CREATE TABLE `bewertungen` (
+  `user_id` int(11) NOT NULL,
+  `artikel_id` int(11) NOT NULL,
+  `bewertung` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `kommentare`
+--
+
+CREATE TABLE `kommentare` (
+  `user_id` int(11) NOT NULL,
+  `artikel_id` int(11) NOT NULL,
+  `text` varchar(255) NOT NULL,
+  `datum` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -101,6 +149,29 @@ INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BES
 ('Noctua NH-D15 chromax.black', 'Noctua NH-D15 chromax.black.jpg', 27, 110.00, 'Der NH-D15 chromax.black ist eine komplett in Schwarz gehaltene Version von Noctuas vielfach ausgezeichnetem Flaggschiff-Modell NH-D15. Hervorragende Laufruhe in Verbindung mit einer Kühlleistung, die durchaus mit Komplett-Wasserkühlungen konkurriert.', 11, 27, 'Noctua', 'CPU-Kühler'),
 ('be quiet! Pure Rock 2 FX', 'Pure Rock 2 FX.jpg', 28, 45.00, 'Mit einem Light Wings 120mm PWM high-speed Lüfter, 150W TDP Kühlleistung, vier 6mm Hochleistungs-Heatpipes und der Möglichkeit, den Kühler mühelos von oben zu verbauen.', 15, 28, 'be quiet!', 'CPU-Kühler');
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `warenkorb`
+--
+
+CREATE TABLE `warenkorb` (
+  `user_id` int(11) NOT NULL,
+  `artikel_id` int(11) NOT NULL,
+  `menge` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `user_id` int(11) NOT NULL,
+  `artikel_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indizes der exportierten Tabellen
 --
@@ -112,10 +183,52 @@ ALTER TABLE `accounts`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indizes für die Tabelle `artikel_bestellungen`
+--
+ALTER TABLE `artikel_bestellungen`
+  ADD KEY `ab_bestellung_fk` (`bestellung_id`),
+  ADD KEY `ab_artikel_fk` (`artikel_id`);
+
+--
+-- Indizes für die Tabelle `bestellungen`
+--
+ALTER TABLE `bestellungen`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `bst_user_fk` (`user_id`);
+
+--
+-- Indizes für die Tabelle `bewertungen`
+--
+ALTER TABLE `bewertungen`
+  ADD KEY `b_user_fk` (`user_id`),
+  ADD KEY `b_artikel_fk` (`artikel_id`);
+
+--
+-- Indizes für die Tabelle `kommentare`
+--
+ALTER TABLE `kommentare`
+  ADD KEY `kom_user_fk` (`user_id`),
+  ADD KEY `kom_artikel_fk` (`artikel_id`);
+
+--
 -- Indizes für die Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `warenkorb`
+--
+ALTER TABLE `warenkorb`
+  ADD KEY `user_fk` (`user_id`),
+  ADD KEY `artikel_fk` (`artikel_id`);
+
+--
+-- Indizes für die Tabelle `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD KEY `wl_artikel_fk` (`artikel_id`),
+  ADD KEY `wl_user_fk` (`user_id`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -125,13 +238,64 @@ ALTER TABLE `produkte`
 -- AUTO_INCREMENT für Tabelle `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT für Tabelle `bestellungen`
+--
+ALTER TABLE `bestellungen`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- Constraints der exportierten Tabellen
+--
+
+--
+-- Constraints der Tabelle `artikel_bestellungen`
+--
+ALTER TABLE `artikel_bestellungen`
+  ADD CONSTRAINT `ab_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
+  ADD CONSTRAINT `ab_bestellung_fk` FOREIGN KEY (`bestellung_id`) REFERENCES `bestellungen` (`ID`);
+
+--
+-- Constraints der Tabelle `bestellungen`
+--
+ALTER TABLE `bestellungen`
+  ADD CONSTRAINT `bst_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
+
+--
+-- Constraints der Tabelle `bewertungen`
+--
+ALTER TABLE `bewertungen`
+  ADD CONSTRAINT `b_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
+  ADD CONSTRAINT `b_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
+
+--
+-- Constraints der Tabelle `kommentare`
+--
+ALTER TABLE `kommentare`
+  ADD CONSTRAINT `kom_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
+  ADD CONSTRAINT `kom_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
+
+--
+-- Constraints der Tabelle `warenkorb`
+--
+ALTER TABLE `warenkorb`
+  ADD CONSTRAINT `artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
+  ADD CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
+
+--
+-- Constraints der Tabelle `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD CONSTRAINT `wl_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
+  ADD CONSTRAINT `wl_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
