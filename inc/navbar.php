@@ -10,7 +10,10 @@
         if (!isset($_SESSION['username'])) {
         ?>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?site=register">Register</a>
+            <a class="nav-link" href="index.php?site=shop">Produkte</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.php?site=register">Registrierung</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.php?site=login">Login</a>
@@ -42,6 +45,8 @@
             </a>
           </li>
           <?php 
+          error_reporting(E_ALL);
+          ini_set('display_errors', 1);
           require("./config/dbaccess.php");
           $stmt = $mysql->prepare("SELECT ROLE FROM accounts WHERE USERNAME = :username");
           $stmt->bindParam(":username", $_SESSION["username"]);

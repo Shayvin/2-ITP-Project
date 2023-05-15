@@ -21,7 +21,7 @@
       <h2 class="featurette-heading fw-normal lh-1">Große Auswahl</h2>
       <p class="lead">Egal, ob Sie ein Gelegenheitsnutzer oder Pro-Gamer sind, wir haben die richtigen Teile für Ihre Bedürfnisse. Wir bieten eine breite Produktpalette und unsere Produkte stammen von Top-Herstellern.</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
-        <a type="button" class="btn btn-primary btn-lg" href="#">Zum Shop</a>
+        <a type="button" class="btn btn-primary btn-lg" href="index.php?site=shop">Zum Shop</a>
       </div>
     </div>
     <div class="col-md-5">

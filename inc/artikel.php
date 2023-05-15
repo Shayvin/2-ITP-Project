@@ -1,26 +1,46 @@
+<?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+    $id = $_GET['id'];
+
+    require("./config/dbaccess.php");
+      
+
+      $sql = "SELECT * FROM produkte WHERE ID = :id";
+    
+    //echo $sort_type;
+    $stmt = $mysql->prepare($sql);
+    $stmt->bindParam(":id", $id);
+    //$stmt->bindParam(":sort_type", $sort_type);
+    $stmt->execute();
+    $row = $stmt->fetch();
+
+    $image_path = "./res/img/Artikelbilder/" . $row["IMAGE"];
+    $kategorie = $row["KATEGORIE"];
+ ?>   
 <div class="container mt-5">
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Shop</a></li>
-    <li class="breadcrumb-item"><a href="#">Speicher</a></li>
-    <li class="breadcrumb-item active" aria-current="page">HDD</li>
+    <li class="breadcrumb-item"><a href="index.php?site=shop">Shop</a></li>
+    <li class="breadcrumb-item"><a href="index.php?site=shop">Kategorie</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="index.php?site=products&kategorie=<?php echo $kategorie ?>"><?php echo $row["KATEGORIE"] ?></a></li>
   </ol>
 </nav>
   <div class="row">
-    <div class="col-sm">
-      <img src="./res/img/auswahl.jpg" class="img-fluid rounded" max-width="100%" height="100%" alt="...">
+    <div class="col-sm d-flex justify-content-center">
+      <img src="<?php echo $image_path ?>" class="align-self-center img-fluid" style="max-height:300px" alt="...">
     </div>
   <div class="col">
     <div class="d-flex align-items-center justify-content-between mb-3">
-      <h1>Festplatte 1TB HDD</h1>
-      <p>Seagate</p>
-      <p>Artikelnr.: 56452</p>
+      <h3> <?php echo $row["NAME"] ?></h3>
+      <p>Marke: <?php echo $row["MARKE"] ?></p>
+      <p>Artikelnr.: <?php echo $row["ARTNR"] ?></p>
       </div>
       <hr>
-      <h3>Preis: 29,99€</h3>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates facere delectus eaque illo temporibus commodi placeat tenetur vitae ullam nam deleniti ratione, aliquid aliquam laborum fugit mollitia molestias earum illum..Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio perspiciatis voluptatem cupiditate hic? Dicta libero, temporibus iure iste, mollitia repellat est doloremque optio enim doloribus, delectus fuga distinctio ab officia.</p>      
+      <h3>Preis: <?php echo $row["BRUTTO"] ?> €</h3>
+      <p> <?php echo $row["BESCHREIBUNG"] ?></p>      
       <a class="btn btn-primary btn-lg" position="absolute">In den Einkaufswagen</a>
-      <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: 503</a>
+      <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: <?php echo $row["BESTAND"] ?></a>
     </div>
   </div>
 </div>
