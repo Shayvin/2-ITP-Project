@@ -22,6 +22,7 @@
               $user_id = $row["ID"];
               echo "<input type='number' name='user_id' value=" . $user_id . " hidden />";
               if ($user_id) {
+                $sum = 0;
                 // Warenkorb-Abfrage
                 $stmt2 = $mysql->prepare("SELECT * FROM warenkorb WHERE user_id = :id");
                 $stmt2->execute(array(":id" => $user_id));
@@ -44,7 +45,7 @@
                       <div class="col-3 col-md-2">
                         <div class="input-group">
                           <div class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></div>
-                          <input class="form-control form-control-sm" type="number" min="1" value="@menge" name="amount@pid">
+                          <input class="form-control form-control-sm" type="number" min="1" value="@menge" name="amount@pid"" />
                         </div>
                       </div>
                       <div class="col-2 col-md-1"><span>@preis,00€</span></div>
@@ -59,6 +60,7 @@
                     "@menge" => $menge,
                     "@pid" => $artikel_id,
                   ]);
+                  $sum += ($menge * $artikel["BRUTTO"]);
                 }
               }
             }
@@ -68,7 +70,9 @@
               <div class="row align-items-center">
                 <div class="col-6 col-md-8"></div>
                 <div class="col-6 col-md-4 d-flex justify-content-between">
-                  <span class="fs-5 fw-bolder">Summe: </span><span class="fs-5 fw-bolder">25,00€</span>
+                  <span class="fs-5 fw-bolder">Summe: </span><span class="fs-5 fw-bolder">
+                    <?php echo $sum; ?>,00€
+                  </span>
                 </div>
               </div>
             </li>
