@@ -15,35 +15,35 @@ error_reporting(E_ALL);
   <div class="form-group row">
     <div class="form-group col-md-8">
       <label for="Produktname">Produktname</label>
-      <input name="Produktname" type="text" class="form-control" id="name" placeholder="<?php echo $row[0]?>">
+      <input name="Produktname" type="text" class="form-control" id="name" value="<?php echo $row[0]?>">
     </div>
     <div class="form-group col-md-4">
       <label for="Kategorie">Kategorie</label>
-      <input name="Kategorie" type="text" class="form-control" id="Kategorie" placeholder=<?php echo $row[8]?>>
+      <input name="Kategorie" type="text" class="form-control" id="Kategorie" value=<?php echo $row[8]?>>
     </div>
    </div>
    <div class="form-group row">
     <div class="form-group col-md-2">
       <label for="Artikelnummer">Artikelnummer</label>
-      <input name="Artikelnummer" type="number" class="form-control" id="Artikelnummer" placeholder="<?php echo $row[2]?>">
+      <input name="Artikelnummer" type="number" class="form-control" id="Artikelnummer" value="<?php echo $row[2]?>">
     </div>
     <div class="form-group col-md-2">
       <label for="Bestand">Bestand</label>
-      <input name="Bestand" type="number" class="form-control" id="Bestand" placeholder=<?php echo $row[5]?>>
+      <input name="Bestand" type="number" class="form-control" id="Bestand" value=<?php echo $row[5]?>>
     </div>
     <div class="form-group col-md-2">
       <label for="Preis">Preis</label>
-      <input name="Preis" type="number" class="form-control" id="Preis" placeholder=<?php echo $row[3]?>>
+      <input name="Preis" type="number" class="form-control" id="Preis" value=<?php echo $row[3]?>>
     </div>
     <div class="form-group col-md-6">
       <label for="Marke">Marke</label>
-      <input name="Marke" type="text" class="form-control" id="Marke" placeholder=<?php echo $row[7]?>>
+      <input name="Marke" type="text" class="form-control" id="Marke" value=<?php echo $row[7]?>>
     </div> 
   </div>
   <div class="form-group row">
     <div class="form-outline">   
     <label class="form-label" for="beschreibung">Beschreibung</label>
-    <input class="form-control" name="beschreibung" id="beschreibung" placeholder="<?php echo $row[4]?>">
+    <textarea rows="3" class="form-control" name="beschreibung" id="beschreibung"><?php echo $row[4]?></textarea>
   </div>
 </div>
 <div class="form-group row">  
@@ -71,8 +71,12 @@ $stmt->execute();
 $row = $stmt->fetch();
 $image = "./res/img/Artikelbilder/".$row[0];
 $editimage = "./res/img/Artikelbilder/edit_".$row[0];
-unlink($image);
-unlink($editimage);
+if(file_exists($image)){
+  unlink($image);
+}
+if(file_exists($editimage)){
+  unlink($editimage);
+}
 
 //dann aus db löschen
 $sql = $mysql->prepare("DELETE FROM produkte
@@ -90,7 +94,8 @@ if(isset($_POST['editarticle'])){
       $sql->bindParam(":id", $_POST["id"]);
       $sql->execute();
     }
-    if(!empty($_FILES['image'])){
+    if (file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
+    //if(isset($_FILES['image'])){ hat nicht funktioniert
       //Die Bilder erstmal vom server löschen
       $stmt = $mysql->prepare("SELECT image
       FROM produkte
@@ -100,9 +105,13 @@ if(isset($_POST['editarticle'])){
       $row = $stmt->fetch();
       $image = "./res/img/Artikelbilder/".$row[0];
       $editimage = "./res/img/Artikelbilder/edit_".$row[0];
-      unlink($image);
-      unlink($editimage);
-      //Bild speichern und namen bestimmen
+      if(file_exists($image)){
+        unlink($image);
+      }
+      if(file_exists($editimage)){
+        unlink($editimage);
+      }
+      //Bild speichern und namen bestimmen, was um einiges komplizierter bei png ist
       $image = $_FILES["image"];
       $fileType = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
       if ($fileType === 'png') {

@@ -31,7 +31,7 @@
   <div class="form-group row">
     <div class="form-outline">   
       <label class="form-label" for="beschreibung">Beschreibung</label>
-      <input class="form-control" type="text" name="beschreibung" id="beschreibung" required>
+      <textarea rows="3" class="form-control" name="beschreibung" id="beschreibung" required></textarea>
     </div>
   </div>
   <div class="form-group row">  
@@ -62,8 +62,8 @@ if(isset($_POST['newarticle'])){
   move_uploaded_file($image['tmp_name'], $imagepath);
   }
   require("./config/dbaccess.php");
-      $sql = $mysql->prepare("INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `ID`, `MARKE`, `KATEGORIE`)
-                              VALUES (:Pname, :img, :Artnr, :preis, :descr, :bestand, NULL, :marke, :kategorie)");
+      $sql = $mysql->prepare("INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `MARKE`, `KATEGORIE`)
+                              VALUES (:Pname, :img, :Artnr, :preis, :descr, :bestand, :marke, :kategorie)");
       $sql->bindParam(":Pname", $_POST["Produktname"]);
       $sql->bindParam(":img", $imagename);
       $sql->bindParam(":Artnr", $_POST["Artikelnummer"]);
