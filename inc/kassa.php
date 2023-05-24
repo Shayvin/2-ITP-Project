@@ -44,7 +44,6 @@
             <div class="row">
               <div class="col-6 col-md-8"></div>
               <div class="col">
-              <button type="button" class="btn btn-primary float-end">Bezahlen</button>
               </div>
       </div>   
 </div>
@@ -74,5 +73,127 @@
         <p class="fs-6">Lieferkosten: 10€</p>
         <hr>
         <p class="fs-4 fw-bold">Gesamt: 100€</p>
-      </div> 
+        <div id="btn-paypal-checkout"></div>
+      </div>
 </div>
+<script>
+    window.addEventListener("load", function () {
+        var cartItems = [{
+            name: "Product 1",
+            description: "Description of product 1",
+            quantity: 1,
+            price: 50,
+            sku: "prod1",
+            currency: "USD"
+        }, {
+            name: "Product 2",
+            description: "Description of product 2",
+            quantity: 3,
+            price: 20,
+            sku: "prod2",
+            currency: "USD"
+        }, {
+            name: "Product 3",
+            description: "Description of product 3",
+            quantity: 4,
+            price: 10,
+            sku: "prod3",
+            currency: "USD"
+        }];
+ 
+        var total = 0;
+        for (var a = 0; a < cartItems.length; a++) {
+            total += (cartItems[a].price * cartItems[a].quantity);
+        }
+ 
+        // Render the PayPal button
+        paypal.Button.render({
+ 
+            
+            env: 'sandbox', // sandbox | production
+ 
+            style: {
+                label: 'checkout',
+                size: 'responsive', // small | medium | large | responsive
+                shape: 'pill', // pill | rect
+                color: 'blue', // gold | blue | silver | black,
+                layout: 'vertical'
+            },
+ 
+            client: {
+                sandbox: 'AbFZ3_BhtY9LxaAJXM0QHVbfd1vLSwmQ8Y-XP-gglW8JIzfFdJpvoxNG-JZX1_AjRerNhjSz6S0lR60b',
+                production: ''
+            },
+ 
+            funding: {
+                allowed: [
+                    paypal.FUNDING.CARD,
+                    paypal.FUNDING.ELV
+                ]
+            },
+ 
+            payment: function(data, actions) {
+                return actions.payment.create({
+                    payment: {
+                        transactions: [{
+                            amount: {
+                                total: total,
+                                currency: 'USD'
+                            },
+                            item_list: {
+                                // custom cartItems array created specifically for PayPal
+                                items: cartItems
+                            }
+                        }]
+                    }
+                });
+            },
+ 
+            onAuthorize: function(data, actions) {
+                return actions.payment.execute().then(function() {
+                    // Values from PayPal
+                    console.log({
+                        "intent": data.intent,
+                        "orderID": data.orderID,
+                        "payerID": data.payerID,
+                        "paymentID": data.paymentID,
+                        "paymentToken": data.paymentToken
+                    });
+ 
+                    paymentMade(data.orderID, data.payerID, data.paymentID, data.paymentToken);
+                });
+            },
+             
+            onCancel: function (data, actions) {
+              
+                console.log("failed");
+            }
+ 
+        }, '#btn-paypal-checkout');
+    });
+
+    function paymentMade(orderID, payerID, paymentID, paymentToken) {
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST", "./inc/paypal.php", true);
+ 
+    ajax.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                var response = JSON.parse(this.responseText);
+                console.log(response);
+            }
+ 
+            if (this.status == 500) {
+                console.log(this.responseText);
+            }
+        }
+    };
+ 
+    var formData = new FormData();
+    formData.append("orderID", orderID);
+    formData.append("payerID", payerID);
+    formData.append("paymentID", paymentID);
+    formData.append("paymentToken", paymentToken);
+    ajax.send(formData);
+}
+</script>
