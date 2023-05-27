@@ -86,6 +86,10 @@ $site = @$_GET['site'];
     case 'products':
       include 'inc/products.php';
       break;
+    
+    case 'chart-add':
+      include 'inc/chart-add.php';
+      break;
 
     case 'editArtikel':
        include 'inc/editArtikel.php';
@@ -94,7 +98,7 @@ $site = @$_GET['site'];
      case 'artikelNeu':
        include 'inc/artikelNeu.php';
        break;
-    
+   
     case 'chart-delete':
       include 'inc/chart-delete.php';
       break;
