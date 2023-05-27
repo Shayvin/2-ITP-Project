@@ -86,6 +86,10 @@ $site = @$_GET['site'];
     case 'products':
       include 'inc/products.php';
       break;
+    
+    case 'chart-add':
+      include 'inc/chart-add.php';
+      break;
 
     case 'editArtikel':
        include 'inc/editArtikel.php';
@@ -94,6 +98,7 @@ $site = @$_GET['site'];
      case 'artikelNeu':
        include 'inc/artikelNeu.php';
        break;
+
   }
   ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
