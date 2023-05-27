@@ -44,7 +44,7 @@
                       </div>
                       <div class="col-3 col-md-2">
                         <div class="input-group">
-                          <div class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></div>
+                          <a class="btn btn-outline-danger btn-sm" href="index.php?site=chart-delete&pid=@pid"><i class="bi bi-trash"></i></a>
                           <input class="form-control form-control-sm" type="number" min="1" value="@menge" name="amount@pid"" />
                         </div>
                       </div>
