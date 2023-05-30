@@ -24,12 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
   }
     // redirect to chart
     echo '<script type="text/javascript">
-    window.location = "http://localhost/2-ITP-Project/index.php?site=chart"
+    window.location = "./index.php?site=chart"
     </script>';
 } else {
   // redirect to chart
   echo '<script type="text/javascript">
-           window.location = "http://localhost/2-ITP-Project/index.php?site=chart"
+           window.location = "./index.php?site=chart"
       </script>';
 }
 ?>
