@@ -1,4 +1,5 @@
 <?php
+$isvalid = true;
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
     $id = $_GET['id'];
@@ -19,16 +20,10 @@
     $kategorie = $row["KATEGORIE"];
 
     //AB hier für die Sternbewertung
-    $sqlbewertung = "SELECT AVG(bewertung) FROM bewertungen WHERE artikel_id = :id";
-    $stmtbewertung = $mysql->prepare($sqlbewertung);
-    $stmtbewertung->bindParam(":id", $id);
-    $stmtbewertung->execute();
-    $Bewertung = $stmtbewertung->fetch();
-    $Sternanzahl = 0;
-    if ($Bewertung[0] != NULL){
-    $Sternanzahl = round($Bewertung[0]);
-    }
+
     if(isset($_POST["Bewerten"])){
+        if(isset($_SESSION["userID"])){
+        $isvalid = true;
         $rating = $_POST["rating"];
         $sqlcheck = "SELECT AVG(bewertung) from bewertungen where artikel_id = :id AND user_id= :user";
         $stmt = $mysql->prepare($sqlcheck);
@@ -53,6 +48,20 @@
           $stmt->execute();    
         }
     }
+    else{
+      $isvalid = false;
+    }
+  }
+
+  $sqlbewertung = "SELECT AVG(bewertung) FROM bewertungen WHERE artikel_id = :id";
+  $stmtbewertung = $mysql->prepare($sqlbewertung);
+  $stmtbewertung->bindParam(":id", $id);
+  $stmtbewertung->execute();
+  $Bewertung = $stmtbewertung->fetch();
+  $Sternanzahl = 0;
+  if ($Bewertung[0] != NULL){
+  $Sternanzahl = round($Bewertung[0]);
+  }
  ?>
 
 
@@ -94,6 +103,7 @@
           </div>
           <input type="submit" value="Bewerten" name="Bewerten" class="btn btn-primary"/>
         </form>
+        <?php if(!$isvalid) echo "<div class='alert alert-danger'>Loggen Sie sich ein um eine Bewertung abzugeben</div>";?>
     </div>
   </div>
 </div>
