@@ -66,7 +66,17 @@
     $stmt->bindParam(":kategorie", $kategorie);
     //$stmt->bindParam(":sort_type", $sort_type);
     $stmt->execute();
-    
+
+    //herausfinden ob der user admin is und in isadmin speichern
+    $isadmin = false;
+    if (isset($_SESSION['username'])) {
+    $sqladmin = $mysql->prepare("SELECT ROLE FROM accounts WHERE USERNAME = :username");
+    $sqladmin->bindParam(":username", $_SESSION["username"]);
+    $sqladmin->execute();
+    $Arow = $sqladmin->fetch();
+    $isadmin = $Arow["ROLE"];
+    }
+
 while ($row = $stmt->fetch()){
   $product_name = $row["NAME"];
   $product_price = $row["BRUTTO"];
@@ -105,12 +115,34 @@ while ($row = $stmt->fetch()){
         </div>
         <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
           <a href="index.php?site=artikel&id=<?php echo $product_id ?>" class="btn btn-primary btn-sm">Details</a>
-          <a href="index.php?site=chart" class="btn btn-success btn-sm">In den Warenkorb</a>
+          <a href="index.php?site=chart-add&pid=<?php echo $product_id ?>" class="btn btn-success btn-sm">In den Warenkorb</a>
         </div>
+        <?php //für die Artikelverwaltung
+        if($isadmin){?>
+          <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
+          <a href="index.php?site=editArtikel&id=<?php echo $product_id ?>" class="btn btn-secondary btn-sm">Artikel bearbeiten</a>
+        </div>
+        <?php } ?>
       </div>
     </div>
     <?php 
 }
+if($isadmin){
 ?>
+<div class="col">
+      <div class="card" style="overflow:hidden">  <!-- style="width="200px"-->
+        <img src="./res/img/artikelNeu.png" class="align-self-center" alt="...">
+        <div class="card-body">
+        Neues Produkt
+        </div>
+        <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
+          <a href="index.php?site=artikelNeu" class="btn btn-primary btn-sm">Anlegen</a>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
+
+
+
   </div>
 </section>

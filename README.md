@@ -1,20 +1,18 @@
 # ITP-Project
- 
+Computer Webshop
 
 Study year: SS2023
 Semester: 2
 
-Project team
+Project team:
 Project lead of students
 Leitner Dominik, if22b170@technikum-wien.at
 Project members (Students)
 Simetzberger Christian, if22b001@technikum-wien.at
 Kemmer Matthias, if22b032@technikum-wien.at
 Panic Sinisa, if22b177@technikum-wien.at
-Doknic Stefan, if22b049@technikum-wien.at
-Title of the project
-Computer Webshop
-Problem description
+
+Problem description:
 Als Studenten-Team wollen wir einen Online-Shop für Computerteile entwickeln, der einfach zu bedienen ist und gleichzeitig eine sichere und effiziente Verwaltung von Warenbeständen, Bestellungen und Kundendaten bietet.
 
 Unser Hauptaugenmerk liegt darauf, eine All-in-One-Lösung zu entwickeln, die einen benutzerfreundlichen Webshop mit einer integrierten Verwaltung von Benutzerdaten, Warenbeständen und Bestellungen, anstatt mehrere verschiedene Softwareanwendungen zu benötigen. So möchten wir sicherstellen, dass unsere Plattform einfach zu bedienen ist und gleichzeitig alle notwendigen Funktionen zur Verfügung stellt, um erfolgreich einen Online-Shop zu betreiben.
@@ -36,3 +34,6 @@ Frameworks verwenden wir:
 •	Bootstrap
 Other remarks
 
+Paypal Sandbox Account for Payments:
+E-Mail: sb-pyer926071395@personal.example.com
+Password: c;e1W^<O
