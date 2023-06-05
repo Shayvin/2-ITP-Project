@@ -6,10 +6,13 @@
     <div class="col-lg-6">
       <h1 class="display-2 fw-bold lh-1 mb-3">Component Corner</h1>
       <p class="lead">Willkommen bei Component Corner! Wir bieten eine große Auswahl an hochwertigen Komponenten zur Aufrüstung und Erweiterung Ihres Computers. Unsere Auswahl umfasst alles von Motherboards und Prozessoren bis hin zu Grafikkarten und Netzteilen.</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <a type="button" class="btn btn-primary btn-lg" href="index.php?site=login">Anmeldung</a>
-        <a type="button" class="btn btn-outline-secondary btn-lg" href="index.php?site=register">Registrierung</a>
-      </div>
+      <?php if (!isset($_SESSION['username'])) { 
+      echo '<div class="d-grid gap-2 d-md-flex justify-content-md-center">';
+      echo '<a type="button" class="btn btn-primary btn-lg" href="index.php?site=login">Anmeldung</a>';
+      echo '<a type="button" class="btn btn-outline-secondary btn-lg" href="index.php?site=register">Registrierung</a>';
+      echo '</div>';
+      }
+      ?>
     </div>
   </div>
 </section>

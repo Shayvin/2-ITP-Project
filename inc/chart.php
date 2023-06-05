@@ -34,6 +34,7 @@
                   $stmt_artikel = $mysql->prepare("SELECT * FROM produkte WHERE ID = :id");
                   $stmt_artikel->execute(array(":id" => $artikel_id));
                   $artikel = $stmt_artikel->fetch();
+                  $partial_sum = $artikel["BRUTTO"] * $menge;
                   $format = '
                   <li class="list-group-item py-3 border-bottom border-top">
                     <div class="row align-items-center">
@@ -48,7 +49,10 @@
                           <input class="form-control form-control-sm" type="number" min="1" value="@menge" name="amount@pid"" />
                         </div>
                       </div>
-                      <div class="col-2 col-md-1"><span>@preis,00€</span></div>
+                      <div class="col-2 col-md-1">
+                        <span>@partial_sum,00€</span><br>
+                        <span class="text-body-secondary small">@preis€/Stk.</span>
+                      </div>
                     </div>
                   </li>
                   ';
@@ -56,11 +60,12 @@
                     "@name" => $artikel["NAME"],
                     "@details" => $artikel["BESCHREIBUNG"],
                     "@imgpath" => $artikel["IMAGE"],
+                    "@partial_sum" => $partial_sum,
                     "@preis" => $artikel["BRUTTO"],
                     "@menge" => $menge,
                     "@pid" => $artikel_id,
                   ]);
-                  $sum += ($menge * $artikel["BRUTTO"]);
+                  $sum += $partial_sum;
                 }
               }
             }
