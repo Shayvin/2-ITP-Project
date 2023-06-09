@@ -31,11 +31,11 @@
         {
           if(password_verify($_POST["password1"], $row["PASSWORT"])) // Vergleicht den im Formular eingegebenen Wert mit dem in der Datenbank
           {
-            session_start(); // Session start
             $_SESSION["username"] = $row["USERNAME"]; // Setzt die Session Variable gleich den Username aus der DB
-            $_SESSION["userID"] = $row["ID"]; //
-            $url = "index.php?site=home"; // Variable die noch "profil.php?id=%USERNAME%" an die URL ranhängt
-            header("Location: $url"); // Weiterleitung an url
+            $_SESSION["userID"] = $row["ID"];
+            echo '<script type="text/javascript">
+              window.location = "./index.php?site=home"
+              </script>';
           }
           else
           {
