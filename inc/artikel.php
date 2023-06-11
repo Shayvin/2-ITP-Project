@@ -18,7 +18,7 @@ $isvalid = true;
 
     $image_path = "./res/img/Artikelbilder/" . $row["IMAGE"];
     $kategorie = $row["KATEGORIE"];
-
+    $marke = $row["MARKE"];
     //AB hier für die Sternbewertung
 
     if(isset($_POST["Bewerten"])){
@@ -123,4 +123,100 @@ $isvalid = true;
         </script>
     </div>
   </div>
+
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+      <div class="d-flex flex-column col-md-8">
+        <div class="coment-bottom bg-white p-2 px-4">
+          <?php
+          if (isset($_SESSION['username'])) {
+          ?>
+            <form role="form" method="post" enctype="multipart/form-data">
+              <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                <input type="text" id="comment" name="comment" class="form-control mr-3" placeholder="Kommentar hinzufügen">
+                <button name="commentbtn" class="btn btn-primary" type="submit">Kommentieren</button>
+              </div>
+            </form>
+          <?php } ?>
+          <?php
+             $sql = "SELECT a.USERNAME, k.TEXT, k.DATUM FROM kommentare k JOIN accounts a ON k.user_id = a.ID WHERE k.artikel_id = :artikel_id ORDER BY k.DATUM desc";
+    
+             $stmt = $mysql->prepare($sql);
+             $stmt->bindParam(":artikel_id", $_GET["id"]);
+             
+             $stmt->execute();
+         
+         while ($row = $stmt->fetch()){
+           $username = $row["USERNAME"];
+           $text = $row["TEXT"];
+           $datum = $row["DATUM"];
+          ?>
+          <div
+              class="commented-section mt-2">
+              <div class="d-flex flex-row align-items-center commented-user">
+                  <h5 class="mr-2"><?php echo $username?></h5><span class="dot mb-1"></span><span class="mb-1 ml-2"><?php echo $datum?></span>
+              </div>
+              <div class="comment-text-sm"><span><?php echo $text?></span>
+              </div>
+          </div>  
+          <?php } ?>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <?php
+  error_reporting(E_ALL);
+  
+    if(isset($_POST) && isset($_POST['commentbtn'])){
+      $sql = $mysql->prepare("INSERT INTO `kommentare` (`USER_ID`, `ARTIKEL_ID`, `TEXT`, `DATUM`)
+                              VALUES (:user_id, :artikel_id, :text, now())");
+      $sql->bindParam(":user_id", $_SESSION["userID"]);
+      $sql->bindParam(":artikel_id", $_GET["id"]);
+      $sql->bindParam(":text", $_POST["comment"]);
+      $sql->execute();
+      echo '<meta http-equiv="REFRESH" content="0"; url="artikel.php"/>';
+    }
+?>
+
+  <hr class="featurette-divider">   
+
+  <div class="row align-items-center justify-content-center">
+    <h2>Könnte für Sie interessant sein</h2>
+    <br>
+<?php
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+      
+      $sql = "SELECT NAME, IMAGE, BRUTTO, ID FROM produkte WHERE KATEGORIE = :kategorie OR MARKE = :marke ORDER BY BRUTTO asc";
+    
+    $stmt = $mysql->prepare($sql);
+    $stmt->bindParam(":kategorie", $kategorie);
+    $stmt->bindParam(":marke", $marke);
+    $stmt->execute();
+
+while ($row = $stmt->fetch()){
+  $product_name = $row["NAME"];
+  $product_price = $row["BRUTTO"];
+    $angepasstes_image = "./res/img/Artikelbilder/edit_" . $row["IMAGE"];
+    $product_id = $row["ID"];
+  ?>
+
+    <div class="col">
+      <div class="card" style="overflow:hidden">  <!-- style="width="200px"-->
+        <img src="<?php echo $angepasstes_image ?>" class="align-self-center" alt="...">
+        <div class="card-body">
+        <?php echo $product_name;?>
+        <hr>
+        <p>Preis: <?php echo $product_price;?> Euro</p>
+        </div>
+        <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
+          <a href="index.php?site=artikel&id=<?php echo $product_id ?>" class="btn btn-primary btn-sm">Details</a>
+          <a href="index.php?site=chart-add&pid=<?php echo $product_id ?>" class="btn btn-success btn-sm">In den Warenkorb</a>
+        </div>
+      </div>
+    </div>
+    <?php } ?>
+
 </div>
+
