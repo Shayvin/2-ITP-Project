@@ -176,3 +176,35 @@ body {
 .rating input:checked:disabled ~ label:hover ~ label {
   color: lightgray;
 }
+
+.bdge {
+height: 21px;
+background-color: orange;
+color: #fff;
+font-size: 11px;
+padding: 8px;
+border-radius: 4px;
+line-height: 3px;
+}
+
+.comments {
+text-decoration: underline;
+text-underline-position: under;
+cursor: pointer;
+}
+
+.dot {
+height: 7px;
+width: 7px;
+margin-top: 3px;
+margin-left: 5px;
+margin-right: 5px;
+background-color: #bbb;
+border-radius: 50%;
+display: inline-block;
+}
+
+.commented-section {
+  background-color: #eee;
+  border-radius: 5px;
+}

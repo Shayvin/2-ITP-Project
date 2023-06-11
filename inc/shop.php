@@ -72,5 +72,16 @@
         </div>
       </div>
     </div>
+    <div class="col align-self-end">
+      <div class="card">
+        <img src="./res/img/Artikelbilder/edit_Dark Rock Pro 4.jpg" class="img-fluid rounded" width="300px" height="300px" alt="...">
+        <div class="card-body">
+        CPU-Kühler
+        </div>
+        <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
+          <a href="index.php?site=products&kategorie=CPU-Kühler&kategorie_name=CPU-Kühler" class="btn btn-primary btn-sm">Artikel</a>
+        </div>
+      </div>
+    </div>
 
 </section>
