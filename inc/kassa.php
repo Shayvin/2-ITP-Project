@@ -194,10 +194,10 @@ for (var i = 0; i < cartItems.length; i++) {
                     paymentMade(data.orderID, data.payerID, data.paymentID, data.paymentToken);
                 });
             },
-            
-            onApprove: function(data, actions) {
+            //jeglicher approve check in paymentMade
+            /*onApprove: function(data, actions) {
               window.location.href = "index.php?site=order-success";
-            },
+            },*/
             onCancel: function (data, actions) {
               console.log("Payment cancelled");
             }
@@ -208,14 +208,16 @@ for (var i = 0; i < cartItems.length; i++) {
     function paymentMade(orderID, payerID, paymentID, paymentToken) {
         var ajax = new XMLHttpRequest();
         ajax.open("POST", "./inc/paypal.php", true);
-
         ajax.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
+                  console.log(this.responseText)
                     var response = JSON.parse(this.responseText);
                     console.log(response);
+                    if(response.status == 'success' && response.message == "Payment verified.")
+                        processSuccessfulPayment(orderID, payerID, paymentID, paymentToken);
                 } else if (this.status == 500) {
-                    console.log(this.responseText);
+                    console.log(this.responseText+"lol");
                 }
             }
         };
@@ -224,29 +226,31 @@ for (var i = 0; i < cartItems.length; i++) {
         formData.append("payerID", payerID);
         formData.append("paymentID", paymentID);
         formData.append("paymentToken", paymentToken);
+        formData.append("userID", <?php echo $_SESSION["userID"]?>)
         ajax.send(formData);
     }
-    function saveOrder(orderID, payerID, paymentID, paymentToken) {
+
+    function processSuccessfulPayment(orderID, payerID, paymentID, paymentToken){
+      //saveOrder(orderID, payerID, paymentID, paymentToken);
+      window.location.href = "index.php?site=order-success";
+    }
+
+    //jegliche Funktionalitäten von saveOrder auf paypal.php ausgelagert
+
+    /*function saveOrder(orderID, payerID, paymentID, paymentToken) {
+      //session variablen existieren anscheinend in von ajax geöffneten php nicht, daher geb ich sie manuell mit
       var ajax = new XMLHttpRequest();
       ajax.open("POST", "./inc/order-save.php", true);
-
-      var formData = new FormData();
-      formData.append("orderID", orderID);
-      formData.append("payerID", payerID);
-      formData.append("paymentID", paymentID);
-      formData.append("paymentToken", paymentToken);
+      ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 
       ajax.onreadystatechange = function () {
         if (this.readyState == 4) {
           if (this.status == 200) {
             var response = JSON.parse(this.responseText);
-            console.log(response);
           } else if (this.status == 500) {
             console.log(this.responseText);
           }
         }
       };
-
-      ajax.send(formData);
-    }
+    }*/
 </script>

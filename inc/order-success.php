@@ -1,1 +1,1 @@
-<h1>Done Test</h1>
+<h1 class="text-center">Die Bezahlung war erfolgreich</h1>

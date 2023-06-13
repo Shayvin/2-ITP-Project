@@ -65,7 +65,57 @@ if (curl_errno($curl))
 }
 curl_close($curl);
 
+//sql
+$userID = $_POST["userID"];
+require_once("../config/dbaccess.php");
+//zuerst die entsprechenden artikel aus dem warenkorb in $warenkorb speichern
+$stmt = $mysql->prepare("SELECT * FROM warenkorb WHERE user_id = :id");
+$stmt->bindParam(":id", $userID);
+$stmt->execute();
+$warenkorb = [];
+$i=0;
+while($row = $stmt->fetch()){
+  $warenkorb[$i]=[$row["artikel_id"], $row["menge"]];
+  ++$i;
+  }
+//neue Bestellung anlegen
+$stmt = $mysql->prepare("INSERT INTO `bestellungen` (`user_id`, `datum`) VALUES (:id, now())");
+$stmt->bindParam(":id", $userID);
+$stmt->execute();
+//BestellungsID in erfahrung bringen: nimm einfach aktuellsten eintrag mit deiner user_id
+$stmt = $mysql->prepare("SELECT * FROM `bestellungen` WHERE user_id = :id AND datum = (SELECT MAX(datum) FROM `bestellungen`);");
+$stmt->bindParam(":id", $userID);
+$stmt->execute();
+$row = $stmt->fetch();
+$bestellungsID = $row[0];
+//Für jeden Artikel Eintrag in artikel_bestellungen anlegen
+foreach($warenkorb as $artikel){
+  $stmt = $mysql->prepare("INSERT INTO `artikel_bestellungen` (`bestellung_id`, `artikel_id`, `menge`) VALUES (:BestID, :ArtID, :menge)");
+  $stmt->bindParam(":BestID", $bestellungsID);
+  $stmt->bindParam(":ArtID", $artikel[0]);
+  $stmt->bindParam(":menge", $artikel[1]);
+  $stmt->execute();
+}
+//Warenkorb leeren
+$stmt = $mysql->prepare("DELETE FROM warenkorb WHERE user_id = :id");
+$stmt->bindParam(":id", $userID);
+$stmt->execute();
 
+//Artikelanzahl update
+foreach($warenkorb as $artikel){
+//Zuerst feststellen, wieviele da sind
+$stmt = $mysql->prepare("SELECT bestand FROM `produkte` WHERE `ID` = :ArtID;");
+$stmt->bindParam(":ArtID", $artikel[0]);
+$stmt->execute();
+$row = $stmt->fetch();
+$Anzahl = $row[0];
+$neueAnzahl = $Anzahl - $artikel[1];
+//dann updaten
+$stmt = $mysql->prepare("UPDATE `produkte` SET `BESTAND` = :Anzahl WHERE `produkte`.`ID` = :ArtID;");
+$stmt->bindParam(":ArtID", $artikel[0]);
+$stmt->bindParam(":Anzahl", $neueAnzahl);
+$stmt->execute();
+}
 $result = json_decode($result);
 
 echo json_encode([
