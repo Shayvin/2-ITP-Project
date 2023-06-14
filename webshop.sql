@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Mai 2023 um 19:28
--- Server-Version: 10.4.25-MariaDB
--- PHP-Version: 8.1.10
+-- Generation Time: Jun 14, 2023 at 11:41 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `webshop`
+-- Database: `webshop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `accounts`
+-- Table structure for table `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -42,16 +42,18 @@ CREATE TABLE `accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Daten für Tabelle `accounts`
+-- Dumping data for table `accounts`
 --
 
 INSERT INTO `accounts` (`VORNAME`, `NACHNAME`, `ADRESSE`, `PLZ`, `EMAIL`, `PASSWORT`, `USERNAME`, `AKTIV`, `ID`, `IMAGE`, `ROLE`) VALUES
 ('test6', 'test', 'Test5', 1210, 'dominik@test.at', '$2y$10$/h0YxWzjBBrYswvuBTsa6us.l4Ee8HfW1MxTyIw1FtYtZRTMeLNYe', 'test', 1, 1, 'test.jpg', 1),
-('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 0, 2, 'default.jpg', 0);
+('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 0, 2, 'default.jpg', 0),
+('chrisi', 'simi', 'ulli', 1220, 'baumversteher@gmail.com', '$2y$10$9Z6.MY27k2ztM1AIxsq70OzVinhfKvILsKpknHf7W9CnB3UahACr.', 'krunschy', 1, 5, 'default.jpg', 1);
+
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `artikel_bestellungen`
+-- Table structure for table `artikel_bestellungen`
 --
 
 CREATE TABLE `artikel_bestellungen` (
@@ -63,7 +65,7 @@ CREATE TABLE `artikel_bestellungen` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bestellungen`
+-- Table structure for table `bestellungen`
 --
 
 CREATE TABLE `bestellungen` (
@@ -75,7 +77,7 @@ CREATE TABLE `bestellungen` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bewertungen`
+-- Table structure for table `bewertungen`
 --
 
 CREATE TABLE `bewertungen` (
@@ -84,10 +86,24 @@ CREATE TABLE `bewertungen` (
   `bewertung` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `bewertungen`
+--
+
+INSERT INTO `bewertungen` (`user_id`, `artikel_id`, `bewertung`) VALUES
+(2, 14, 3),
+(2, 14, 5),
+(5, 14, 5),
+(5, 6, 5),
+(5, 10, 4),
+(5, 7, 5),
+(5, 20, 4),
+(5, 9, 5);
+
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `kommentare`
+-- Table structure for table `kommentare`
 --
 
 CREATE TABLE `kommentare` (
@@ -100,7 +116,7 @@ CREATE TABLE `kommentare` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `produkte`
+-- Table structure for table `produkte`
 --
 
 CREATE TABLE `produkte` (
@@ -116,27 +132,27 @@ CREATE TABLE `produkte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Daten für Tabelle `produkte`
+-- Dumping data for table `produkte`
 --
 
 INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `ID`, `MARKE`, `KATEGORIE`) VALUES
-('AMD Ryzen 7 7800X3D, 8C/16T, 4.20-5.00GHz', 'AMD_Ryzen_7_7800X3D.jpg', 1, 540.00, 'Erleben Sie als einer der ersten einen AMD Ryzen 7 Prozessor - unglaublich leistungsstarke Multi - Core - Verarbeitung für ultimative Performance.', 15, 1, 'AMD', 'Prozessor'),
+('AMD Ryzen 7 7800X3D, 8C/16T, 4.20-5.00GHz', 'AMD_Ryzen_7_7800X3D.jpg', 1, 540.00, 'Erleben Sie als einer der ersten einen AMD Ryzen 7 Prozessor - unglaublich leistungsstarke Multi - Core - Verarbeitung für ultimative Performance.', 13, 1, 'AMD', 'Prozessor'),
 ('AMD Ryzen 7 5800X3D, 8C/16T, 3.40-4.50GHz', 'AMD_Ryzen_7_5800X3D.jpg', 2, 336.00, 'Bis zu 15 % mehr Performance mit AMD Ryzen™ 7 5800X3D, dem einzigen Prozessor mit AMD 3D V-Cache™-Technologie.1', 12, 2, 'AMD', 'Prozessor'),
 ('Intel Core i7-13700K, 8C+8c/24T, 3.40-5.40GHz', 'Intel_Core_i7-13700K.jpg', 3, 456.00, 'Enhanced SpeedStep technology, Hyper-Threading-Technologie, Unterstützung für Execute Disable Bit, Intel Virtualization Technology, Intel 64 Technology, Streaming-SIMD-Erweiterungen 4.1 und viele weitere Features', 10, 3, 'Intel', 'Prozessor'),
 ('Intel Core i5-13600K, 6C+8c/20T, 3.50-5.10GHz', 'Intel_Core_i5-13600K.jpg', 4, 336.00, 'Enhanced SpeedStep technology, Hyper-Threading-Technologie, Unterstützung für Execute Disable Bit, Intel Virtualization Technology, Intel 64 Technology, Intel Trusted Execution Technology, Streaming-SIMD-Erweiterungen 4.1 und viele weitere Features', 8, 4, 'Intel', 'Prozessor'),
-('AMD Ryzen 5 7600, 6C/12T, 3.80-5.10GHz', 'AMD_Ryzen_5_7600.jpg', 5, 216.00, 'Leistungsstarkes Gaming beginnt hier: Dieser übertaktbare Prozessor ist für intensives Gaming ausgelegt und wird mit einem flachen AMD Wraith Stealth Cooler geliefert.', 11, 5, 'AMD', 'Prozessor'),
+('AMD Ryzen 5 7600, 6C/12T, 3.80-5.10GHz', 'AMD_Ryzen_5_7600.jpg', 5, 72.00, 'Leistungsstarkes Gaming beginnt hier: Dieser übertaktbare Prozessor ist für intensives Gaming ausgelegt und wird mit einem flachen AMD Wraith Stealth Cooler geliefert.', 9, 5, 'AMD', 'Prozessor'),
 ('Samsung SSD 980 PRO 2TB, M.2', 'Samsung_SSD_980_PRO.jpg', 6, 156.00, 'Samsung MZ-V8P2T0BW. SSD Speicherkapazität: 2000 GB, SSD-Formfaktor: M.2, Lesegeschwindigkeit: 7000 MB/s, Schreibgeschwindigkeit: 5100 MB/s', 7, 6, 'Samsung', 'SSD'),
 ('Kingston NV2 NVMe PCIe 4.0 SSD 2TB, M.2', 'Kingston NV2 NVMe PCIe 4.0.jpg', 7, 90.00, 'Moderne SSD mit PCIe 4.0-Schnittstelle\r\n3.500 MB/s Lesegeschwindigkeit und 2.800 MB/s Schreibgeschwindigkeit', 10, 7, 'Kingston', 'SSD'),
 ('Samsung SSD 870 EVO 1TB, SATA', 'Samsung SSD 870 EVO 1TB, SATA.jpg', 8, 72.00, 'Solid State Drive (SSD) für eine verbesserte PC-Leistung im täglichen Einsatz, gut geeignet als Alternative zur HDD (Festplatte)', 9, 8, 'Samsung', 'SSD'),
-('Kingston KC3000 PCIe 4.0 NVMe SSD 1TB, M.2', 'Kingston KC3000 PCIe 4.0.jpg', 9, 72.00, 'PCIe 4.0 NVMe High-Performance\r\nKompakter M.2-2280-Formfaktor\r\nLow Profile Graphen-Aluminium-Kühlkörper', 16, 9, 'Kingston', 'SSD'),
+('Kingston KC3000 PCIe 4.0 NVMe SSD 1TB, M.2', 'Kingston KC3000 PCIe 4.0.jpg', 9, 72.00, 'PCIe 4.0 NVMe High-Performance\nKompakter M.2-2280-Formfaktor\nLow Profile Graphen-Aluminium-Kühlkörper', 16, 9, 'Kingston', 'SSD'),
 ('Seagate Exos X - X20 20TB, 512e/4Kn, SATA 6Gb/s', 'Seagate Exos X - X20 20TB.jpg', 10, 324.00, 'Höchste 20-TB-Festplattenleistung mit verbessertem Caching, ideal für Cloud-Rechenzentren und große Scale-out-Anwendungen in Rechenzentren.', 9, 10, 'Seagate', 'HDD'),
 ('Seagate IronWolf NAS HDD +Rescue 4TB, SATA 6Gb/s', 'Seagate IronWolf NAS HDD.jpg', 11, 90.00, 'Seagate IronWolf ST4000VN006 - Festplatte - 4 TB - intern - SATA 6Gb/s - 5400 rpm - Puffer: 256 MB - mit 3 Jahre Seagate Rescue Datenwiederherstellung', 11, 11, 'Seagate', 'HDD'),
 ('Toshiba Cloud-Scale Capacity MG10ACA 20TB, 512e, SATA 6Gb/s', 'Toshiba Cloud-Scale Capacity MG10ACA.jpg', 12, 336.00, 'Toshiba MG10 Series MG10ACA20TE - Festplatte - Enterprise - 20 TB - intern - 3.5\" (8.9 cm) - SATA 6Gb/s - 7200 rpm - Puffer: 512 MB', 5, 12, 'Toshiba', 'HDD'),
 ('MSI GeForce RTX 4070 Ventus 3X 12G OC, 12GB GDDR6X, HDMI, 3x DP', 'MSI GeForce RTX 4070 Ventus.jpg', 13, 720.00, 'Grafikkarte, NVIDIA GeForce RTX 4070 Overclocked (Core clock 1920 MHz / Boost clock 2520 MHz), 5888 CUDA Kerne, 12 GB GDDR6X (Memory clock 21 GHz) - 192-bit und viele weitere Features', 2, 13, 'MSI', 'PCIe'),
 ('ASUS TUF Gaming GeForce RTX 4070 Ti, TUF-RTX4070TI-12G-GAMING', 'ASUS TUF Gaming GeForce RTX 4070 Ti.jpg', 14, 960.00, 'ASUS TUF Gaming GeForce RTX 4070 Ti 12GB - Grafikkarten - GeForce RTX 4070 Ti - 12 GB GDDR6X - PCIe 4.0 - 2 x HDMI, 3 x DisplayPort', 4, 14, 'ASUS', 'PCIe'),
 ('PowerColor AMD Radeon RX 7900 XT, 20GB GDDR6, HDMI, 2x DP, USB-C', 'PowerColor AMD Radeon RX 7900 XT.jpg', 15, 860.00, 'Grafikkarte - 20 GB GDDR6 (20000 MHz ), AMD Radeon, RDNA 3.0 (Navi 31, 1500 MHz), Boost 2400 MHz, PCI Express x16 4.0 , 320Bit, HDMI 2.1, USB-C und DisplayPort 2.1', 6, 15, 'Powercolor', 'PCIe'),
-('Gainward GeForce RTX 4070 Ghost, 12GB GDDR6X, HDMI, 3x DP', 'Gainward GeForce RTX 4070 Ghost.jpg', 16, 650.00, 'Grafikkarte - 12 GB GDDR6X (21000 MHz ), NVIDIA GeForce, Ada Lovelace (AD104, 1920 MHz), Boost 2475 MHz, PCI Express x16 4.0 , 192Bit, DisplayPort 1.4a und HDMI 2.1a, DLSS 3.0', 7, 16, 'Gainward', 'PCIe'),
-('Sapphire Pulse Radeon RX 6800, 16GB GDDR6, HDMI, 3x DP, lite retail', 'Sapphire Pulse Radeon RX 6800.jpg', 17, 540.00, 'High - End - Gaming - Grafikkarte, Radeon RX 6800 im Custom - Design, max. 2,170 MHz GPU - Boost - Takt, 16 GB GDDR 6 - Speicher mit 128 MB AMD Infinity Cache, 3x DisplayPort 1,4 a, 1x HDMI 2,1, Triple - Fan - Kühlerdesign', 5, 17, 'Sapphire', 'PCIe'),
+('Gainward GeForce RTX 4070 Ghost, 12GB GDDR6X, HDMI, 3x DP', 'Gainward GeForce RTX 4070 Ghost.jpg', 16, 650.00, 'Grafikkarte - 12 GB GDDR6X (21000 MHz ), NVIDIA GeForce, Ada Lovelace (AD104, 1920 MHz), Boost 2475 MHz, PCI Express x16 4.0 , 192Bit, DisplayPort 1.4a und HDMI 2.1a, DLSS 3.0', 5, 16, 'Gainward', 'PCIe'),
+('Sapphire Pulse Radeon RX 6800, 16GB GDDR6, HDMI, 3x DP, lite retail', 'Sapphire Pulse Radeon RX 6800.jpg', 17, 540.00, 'High - End - Gaming - Grafikkarte, Radeon RX 6800 im Custom - Design, max. 2,170 MHz GPU - Boost - Takt, 16 GB GDDR 6 - Speicher mit 128 MB AMD Infinity Cache, 3x DisplayPort 1,4 a, 1x HDMI 2,1, Triple - Fan - Kühlerdesign', 4, 17, 'Sapphire', 'PCIe'),
 ('be quiet! Pure Power 12 M 850W ATX 3.0', 'Pure Power 12 M 850W.jpg', 18, 150.00, 'Pure Power 12 M 850W ist ATX 3.0 und PCIe 5.0 kompatibel und bietet unvergleichliche Zuverlässigkeit mit erstklassigen Features. Pure Power 12 M 850W bietet die bestmögliche Kombination von Features mit herausragender Kompatibilität.', 4, 18, 'be quiet!', 'Netzteil'),
 ('be quiet! Pure Power 12 M 750W ATX 3.0', 'Pure Power 12 M 750W.jpg', 19, 115.00, '750 Watt, Hervorragende Effizienz (bis zu 92,6%)\r\nPCIe 5.0, ATX 3.0\r\nSilence-optimized be quiet! Lüfter - 120mm\r\nStarke 12V Leitungen, benutzerfreundliche modulare Kabel\r\nunvergleichliche Zuverlässigkeit und erstklassige Features', 7, 19, 'be quiet!', 'Netzteil'),
 ('MSI MPG A850G PCIE5 850W ATX 3.0', 'MSI MPG A850G PCIE5 850W.jpg', 20, 138.00, 'MSI MPG A850G PCIE5 - Netzteil (intern) - ATX12V / EPS12V - 80 PLUS Gold - Wechselstrom 100-240 V - 850 Watt - aktive PFC', 13, 20, 'MSI', 'Netzteil'),
@@ -152,7 +168,7 @@ INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `warenkorb`
+-- Table structure for table `warenkorb`
 --
 
 CREATE TABLE `warenkorb` (
@@ -164,7 +180,7 @@ CREATE TABLE `warenkorb` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `wishlist`
+-- Table structure for table `wishlist`
 --
 
 CREATE TABLE `wishlist` (
@@ -173,125 +189,125 @@ CREATE TABLE `wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `accounts`
+-- Indexes for table `accounts`
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indizes für die Tabelle `artikel_bestellungen`
+-- Indexes for table `artikel_bestellungen`
 --
 ALTER TABLE `artikel_bestellungen`
   ADD KEY `ab_bestellung_fk` (`bestellung_id`),
   ADD KEY `ab_artikel_fk` (`artikel_id`);
 
 --
--- Indizes für die Tabelle `bestellungen`
+-- Indexes for table `bestellungen`
 --
 ALTER TABLE `bestellungen`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `bst_user_fk` (`user_id`);
 
 --
--- Indizes für die Tabelle `bewertungen`
+-- Indexes for table `bewertungen`
 --
 ALTER TABLE `bewertungen`
   ADD KEY `b_user_fk` (`user_id`),
   ADD KEY `b_artikel_fk` (`artikel_id`);
 
 --
--- Indizes für die Tabelle `kommentare`
+-- Indexes for table `kommentare`
 --
 ALTER TABLE `kommentare`
   ADD KEY `kom_user_fk` (`user_id`),
   ADD KEY `kom_artikel_fk` (`artikel_id`);
 
 --
--- Indizes für die Tabelle `produkte`
+-- Indexes for table `produkte`
 --
 ALTER TABLE `produkte`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indizes für die Tabelle `warenkorb`
+-- Indexes for table `warenkorb`
 --
 ALTER TABLE `warenkorb`
   ADD KEY `user_fk` (`user_id`),
   ADD KEY `artikel_fk` (`artikel_id`);
 
 --
--- Indizes für die Tabelle `wishlist`
+-- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
   ADD KEY `wl_artikel_fk` (`artikel_id`),
   ADD KEY `wl_user_fk` (`user_id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `accounts`
+-- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT für Tabelle `bestellungen`
+-- AUTO_INCREMENT for table `bestellungen`
 --
 ALTER TABLE `bestellungen`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT für Tabelle `produkte`
+-- AUTO_INCREMENT for table `produkte`
 --
 ALTER TABLE `produkte`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
--- Constraints der exportierten Tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `artikel_bestellungen`
+-- Constraints for table `artikel_bestellungen`
 --
 ALTER TABLE `artikel_bestellungen`
   ADD CONSTRAINT `ab_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `ab_bestellung_fk` FOREIGN KEY (`bestellung_id`) REFERENCES `bestellungen` (`ID`);
 
 --
--- Constraints der Tabelle `bestellungen`
+-- Constraints for table `bestellungen`
 --
 ALTER TABLE `bestellungen`
   ADD CONSTRAINT `bst_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints der Tabelle `bewertungen`
+-- Constraints for table `bewertungen`
 --
 ALTER TABLE `bewertungen`
   ADD CONSTRAINT `b_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `b_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints der Tabelle `kommentare`
+-- Constraints for table `kommentare`
 --
 ALTER TABLE `kommentare`
   ADD CONSTRAINT `kom_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `kom_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints der Tabelle `warenkorb`
+-- Constraints for table `warenkorb`
 --
 ALTER TABLE `warenkorb`
   ADD CONSTRAINT `artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints der Tabelle `wishlist`
+-- Constraints for table `wishlist`
 --
 ALTER TABLE `wishlist`
   ADD CONSTRAINT `wl_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
