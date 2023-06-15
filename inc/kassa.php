@@ -216,8 +216,10 @@ for (var i = 0; i < cartItems.length; i++) {
                     console.log(response);
                     if(response.status == 'success' && response.message == "Payment verified.")
                         processSuccessfulPayment(orderID, payerID, paymentID, paymentToken);
+                    if(response.status == 'failed' && response.message == "Ordered amount surpasses stock amount")
+                        CancelPayment();                   
                 } else if (this.status == 500) {
-                    console.log(this.responseText+"lol");
+                    console.log(this.responseText);
                 }
             }
         };
@@ -235,6 +237,14 @@ for (var i = 0; i < cartItems.length; i++) {
       window.location.href = "index.php?site=order-success";
     }
 
+    function CancelPayment(){
+      var myPar = document.getElementById("totalSum");
+      var paragraph = document.createElement("p");
+      paragraph.style.color = "red";
+      var textNode = document.createTextNode("Bezahlung abgebrochen: Mehr bestellt, als vorhanden");
+      paragraph.appendChild(textNode);
+      myPar.appendChild(paragraph);
+    }
     //jegliche Funktionalitäten von saveOrder auf paypal.php ausgelagert
 
     /*function saveOrder(orderID, payerID, paymentID, paymentToken) {
