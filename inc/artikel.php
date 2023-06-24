@@ -86,7 +86,7 @@ $isvalid = true;
       <hr>
       <h3>Preis: <?php echo $row["BRUTTO"] ?> €</h3>
       <p> <?php echo $row["BESCHREIBUNG"] ?></p>      
-      <a class="btn btn-primary btn-lg" position="absolute">In den Einkaufswagen</a>
+      <a class="btn btn-primary btn-lg" position="absolute" href="index.php?site=chart-add&pid=<?php echo $_GET["id"] ?>">In den Einkaufswagen</a>
       <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: <?php echo $row["BESTAND"] ?></a>
       <form action="" method="POST">
           <div class="rating">
