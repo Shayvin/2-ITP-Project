@@ -11,33 +11,36 @@
             <th>Entfernen</th>
           </thead>
           <tbody>
-
-            <tr class="align-middle">
-              <td>
-                <img class="image-fluid wl-img" src="./res/img/Artikelbilder/AMD_Ryzen_5_7600.jpg" />
-              </td>
-              <td class="text-start">
-                <div class="fs-5">Produktname #1</div>
-                <a class="text-muted" href="#">Details</a>
-              </td>
-              <td>25,00€</td>
-              <td><a class="btn btn-primary btn-sm" href="#">Hinzufügen</a></td>
-              <td><a class="btn btn-danger btn-sm" href="#">Entfernen</a></td>
-            </tr>
-
-            <tr class="align-middle">
-              <td>
-                <img class="image-fluid wl-img" src="./res/img/Artikelbilder/ASUS ROG Strix B650E-F.jpg"/>
-              </td>
-              <td class="text-start">
-                <div class="fs-5">Produktname #2</div>
-                <a class="text-muted" href="#">Details</a>
-              </td>
-              <td>125,00€</td>
-              <td><a class="btn btn-primary btn-sm" href="#">Hinzufügen</a></td>
-              <td><a class="btn btn-danger btn-sm" href="#">Entfernen</a></td>
-            </tr>
-
+          <?php
+            require_once("./config/dbaccess.php"); // db access
+            if (isset($_SESSION["userID"])) {
+              $stmt_wish = $mysql->prepare("SELECT wl.artikel_id, p.NAME, p.IMAGE, p.BRUTTO FROM wishlist wl INNER JOIN produkte p ON wl.artikel_id = p.ID WHERE wl.user_id = :id");
+              $stmt_wish->execute(array(":id" => $_SESSION["userID"]));
+              for ($i = 0; $i < $stmt_wish->rowCount(); $i++) {
+                $row = $stmt_wish->fetch();
+                $format = '
+                  <tr class="align-middle">
+                    <td>
+                      <img class="image-fluid wl-img" src="./res/img/Artikelbilder/@image" />
+                    </td>
+                    <td class="text-start">
+                      <div class="fs-5">@name</div>
+                      <a class="text-muted" href="index.php?site=artikel&id=@id">Details</a>
+                    </td>
+                    <td>@price,00€</td>
+                    <td><a class="btn btn-primary btn-sm" href="index.php?site=chart-add&pid=@id">Hinzufügen</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="index.php?site=wishlist-delete&pid=@id">Entfernen</a></td>
+                  </tr>
+                  ';
+                  echo strtr($format, [
+                    "@image" => $row["IMAGE"],
+                    "@name" => $row["NAME"],
+                    "@price" => $row["BRUTTO"],
+                    "@id" => $row["artikel_id"],
+                  ]);
+              }
+            }
+          ?>
           </tbody>
         </table>
       </div>
