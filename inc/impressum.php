@@ -85,17 +85,4 @@
   </div>
 
   <hr class="featurette-divider">
-  <div class="row featurette align-items-center justify-content-center">
-    <div class="col-md-7">
-      <h1>Area Director of Retail</h1>
-      <p class="lead">Chairman of the Retail Department
-                <br>Stefan Doknic
-                <br>Enkplatz 112
-                <br>A-1110 Vienna
-                <br>Tel: +43 677 848 38 29
-                <br>E-mail: <a href="#">if22b172@technikum-wien.at</a></p>
-    </div>
-  </div>
-
-  <hr class="featurette-divider">
 </div>
