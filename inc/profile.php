@@ -1,6 +1,4 @@
 <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
   if(isset($_SESSION["username"])){ //nur für eingeloggte user verfügbar 
         require("./config/dbaccess.php"); // DB Connector eingebunden
         if(isset($_POST["submit"])) // Wenn submit gedrückt wurde, um Accountdaten zu ändern
@@ -118,9 +116,6 @@
         <div class="coment-bottom bg-white p-2 px-4">
         
           <?php
-            error_reporting(E_ALL);
-            ini_set('display_errors', 1);
-
             require("./config/dbaccess.php"); // DB Connector eingebunden
 
             // Join über drei Tabellen um die benötigten Daten herauszufiltern 

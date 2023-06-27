@@ -33,8 +33,6 @@
   <div class="row align-items-center justify-content-center">
     <h2><?php echo $_GET['kategorie_name'];?></h2>
 <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
     require("./config/dbaccess.php");
     
     
@@ -98,7 +96,7 @@ while ($row = $stmt->fetch()){
     imagecopyresampled($neuesBild, $original, 0, 0, 0, 0, 150, 150, imagesx($original), imagesy($original));
     imagejpeg($neuesBild, $angepasstes_image);
     }
-    
+
     // Ressourcen freigeben
     imagedestroy($original);
     imagedestroy($neuesBild);
@@ -115,8 +113,11 @@ while ($row = $stmt->fetch()){
         </div>
         <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-center"> 
           <a href="index.php?site=artikel&id=<?php echo $product_id ?>" class="btn btn-primary btn-sm">Details</a>
-          <a href="index.php?site=chart-add&pid=<?php echo $product_id ?>" class="btn btn-success btn-sm">Warenkorb</a>
-          <a href="index.php?site=wishlist-add&pid=<?php echo $product_id ?>" class="btn btn-warning btn-sm">Wunschliste</a>
+          <?php if(isset($_SESSION['username'])){ // Checkt ob der User eingeloggt ist
+          echo'
+          <a href="index.php?site=chart-add&pid='.$product_id.'" class="btn btn-success btn-sm">Warenkorb</a>
+          <a href="index.php?site=wishlist-add&pid='.$product_id.'" class="btn btn-warning btn-sm">Wunschliste</a>
+          '; }?>
         </div>
         <?php //für die Artikelverwaltung
         if($isadmin){?>
