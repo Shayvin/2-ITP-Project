@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 14, 2023 at 11:41 AM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Erstellungszeit: 27. Jun 2023 um 12:06
+-- Server-Version: 10.4.21-MariaDB
+-- PHP-Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `webshop`
+-- Datenbank: `webshop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accounts`
+-- Tabellenstruktur für Tabelle `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -42,18 +42,18 @@ CREATE TABLE `accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `accounts`
+-- Daten für Tabelle `accounts`
 --
 
 INSERT INTO `accounts` (`VORNAME`, `NACHNAME`, `ADRESSE`, `PLZ`, `EMAIL`, `PASSWORT`, `USERNAME`, `AKTIV`, `ID`, `IMAGE`, `ROLE`) VALUES
 ('test6', 'test', 'Test5', 1210, 'dominik@test.at', '$2y$10$/h0YxWzjBBrYswvuBTsa6us.l4Ee8HfW1MxTyIw1FtYtZRTMeLNYe', 'test', 1, 1, 'test.jpg', 1),
-('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 0, 2, 'default.jpg', 0),
-('chrisi', 'simi', 'ulli', 1220, 'baumversteher@gmail.com', '$2y$10$9Z6.MY27k2ztM1AIxsq70OzVinhfKvILsKpknHf7W9CnB3UahACr.', 'krunschy', 1, 5, 'default.jpg', 1);
+('Dominik', 'Leitner', 'leitner5/6/6', 1220, 'dominik.test@test.at', '$2y$10$ZOpP74KNpkGRyliMxXfvsu.SHz3vOhP3Mf0.IZyOvE2tTuBxRuQF.', 'test2', 1, 2, 'default.jpg', 0),
+('chrisi', 'simi', 'ulli', 1220, 'baumversteher@gmail.com', '$2y$10$9Z6.MY27k2ztM1AIxsq70OzVinhfKvILsKpknHf7W9CnB3UahACr.', 'krunschy', 1, 5, 'default.jpg', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `artikel_bestellungen`
+-- Tabellenstruktur für Tabelle `artikel_bestellungen`
 --
 
 CREATE TABLE `artikel_bestellungen` (
@@ -62,10 +62,20 @@ CREATE TABLE `artikel_bestellungen` (
   `menge` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `artikel_bestellungen`
+--
+
+INSERT INTO `artikel_bestellungen` (`bestellung_id`, `artikel_id`, `menge`) VALUES
+(20, 20, 1),
+(21, 21, 1),
+(22, 21, 1),
+(23, 20, 2);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bestellungen`
+-- Tabellenstruktur für Tabelle `bestellungen`
 --
 
 CREATE TABLE `bestellungen` (
@@ -74,10 +84,20 @@ CREATE TABLE `bestellungen` (
   `datum` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `bestellungen`
+--
+
+INSERT INTO `bestellungen` (`ID`, `user_id`, `datum`) VALUES
+(20, 1, '2023-06-14 15:06:22'),
+(21, 1, '2023-06-14 15:07:05'),
+(22, 1, '2023-06-14 15:08:32'),
+(23, 1, '2023-06-15 12:50:45');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bewertungen`
+-- Tabellenstruktur für Tabelle `bewertungen`
 --
 
 CREATE TABLE `bewertungen` (
@@ -87,7 +107,7 @@ CREATE TABLE `bewertungen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `bewertungen`
+-- Daten für Tabelle `bewertungen`
 --
 
 INSERT INTO `bewertungen` (`user_id`, `artikel_id`, `bewertung`) VALUES
@@ -103,7 +123,7 @@ INSERT INTO `bewertungen` (`user_id`, `artikel_id`, `bewertung`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kommentare`
+-- Tabellenstruktur für Tabelle `kommentare`
 --
 
 CREATE TABLE `kommentare` (
@@ -116,7 +136,7 @@ CREATE TABLE `kommentare` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produkte`
+-- Tabellenstruktur für Tabelle `produkte`
 --
 
 CREATE TABLE `produkte` (
@@ -132,7 +152,7 @@ CREATE TABLE `produkte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `produkte`
+-- Daten für Tabelle `produkte`
 --
 
 INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `ID`, `MARKE`, `KATEGORIE`) VALUES
@@ -155,8 +175,8 @@ INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BES
 ('Sapphire Pulse Radeon RX 6800, 16GB GDDR6, HDMI, 3x DP, lite retail', 'Sapphire Pulse Radeon RX 6800.jpg', 17, 540.00, 'High - End - Gaming - Grafikkarte, Radeon RX 6800 im Custom - Design, max. 2,170 MHz GPU - Boost - Takt, 16 GB GDDR 6 - Speicher mit 128 MB AMD Infinity Cache, 3x DisplayPort 1,4 a, 1x HDMI 2,1, Triple - Fan - Kühlerdesign', 4, 17, 'Sapphire', 'PCIe'),
 ('be quiet! Pure Power 12 M 850W ATX 3.0', 'Pure Power 12 M 850W.jpg', 18, 150.00, 'Pure Power 12 M 850W ist ATX 3.0 und PCIe 5.0 kompatibel und bietet unvergleichliche Zuverlässigkeit mit erstklassigen Features. Pure Power 12 M 850W bietet die bestmögliche Kombination von Features mit herausragender Kompatibilität.', 4, 18, 'be quiet!', 'Netzteil'),
 ('be quiet! Pure Power 12 M 750W ATX 3.0', 'Pure Power 12 M 750W.jpg', 19, 115.00, '750 Watt, Hervorragende Effizienz (bis zu 92,6%)\r\nPCIe 5.0, ATX 3.0\r\nSilence-optimized be quiet! Lüfter - 120mm\r\nStarke 12V Leitungen, benutzerfreundliche modulare Kabel\r\nunvergleichliche Zuverlässigkeit und erstklassige Features', 7, 19, 'be quiet!', 'Netzteil'),
-('MSI MPG A850G PCIE5 850W ATX 3.0', 'MSI MPG A850G PCIE5 850W.jpg', 20, 138.00, 'MSI MPG A850G PCIE5 - Netzteil (intern) - ATX12V / EPS12V - 80 PLUS Gold - Wechselstrom 100-240 V - 850 Watt - aktive PFC', 13, 20, 'MSI', 'Netzteil'),
-('Corsair RMx SHIFT Series RM1200x 1200W ATX 3.0', 'Corsair RMx SHIFT Series RM1200x 1200W.jpg', 21, 255.00, 'PC-Netzteil 1200W, ATX, 80 PLUS Gold, Effizienz 90%, 8 Stk. PCIe (8-pin / 6+2-pin), 16 × SATA, abnehmbare Kabel, thermische Geschwindigkeitsregelung, Netzschalter, Zero RPM mode und PCIe 5,0 12-pin, 140 mm Lüfter, Modularität: vollständig, Tiefe: 86 mm', 10, 21, 'Corsair', 'Netzteil'),
+('MSI MPG A850G PCIE5 850W ATX 3.0', 'MSI MPG A850G PCIE5 850W.jpg', 20, 138.00, 'MSI MPG A850G PCIE5 - Netzteil (intern) - ATX12V / EPS12V - 80 PLUS Gold - Wechselstrom 100-240 V - 850 Watt - aktive PFC', 10, 20, 'MSI', 'Netzteil'),
+('Corsair RMx SHIFT Series RM1200x 1200W ATX 3.0', 'Corsair RMx SHIFT Series RM1200x 1200W.jpg', 21, 255.00, 'PC-Netzteil 1200W, ATX, 80 PLUS Gold, Effizienz 90%, 8 Stk. PCIe (8-pin / 6+2-pin), 16 × SATA, abnehmbare Kabel, thermische Geschwindigkeitsregelung, Netzschalter, Zero RPM mode und PCIe 5,0 12-pin, 140 mm Lüfter, Modularität: vollständig, Tiefe: 86 mm', -1, 21, 'Corsair', 'Netzteil'),
 ('ASUS ROG Strix B650E-F Gaming WIFI', 'ASUS ROG Strix B650E-F.jpg', 22, 300.00, 'Motherboard - ATX - Socket AM5 - AMD B650 Chipsatz - USB 3.2 Gen 1, USB 3.2 Gen 2, USB-C 3.2 Gen2, USB-C 3.2 Gen 2x2 - 2.5 Gigabit LAN, Wi-Fi 6, Bluetooth - Onboard-Grafik (CPU erforderlich)', 9, 22, 'ASUS', 'Mainboard'),
 ('ASUS TUF Gaming X670E-Plus', 'ASUS TUF Gaming X670E-Plus.jpg', 23, 300.00, 'Motherboard - ATX - Socket AM5 - AMD X670 Chipsatz - USB 3.2 Gen 1, USB 3.2 Gen 2, USB-C Gen 2x2, USB-C 3.2 Gen2 - 2.5 Gigabit LAN - Onboard-Grafik (CPU erforderlich)', 8, 23, 'ASUS', 'Mainboard'),
 ('GIGABYTE B550 Gaming X V2', 'GIGABYTE B550 Gaming X V2.jpg', 24, 114.00, 'Gigabyte B550 Gaming X V2 - AMD - Socket AM4 - AMD Ryzen 3 3rd Gen - 3rd Generation AMD Ryzen 5 - 3rd Generation AMD Ryzen 7 - 3rd Generation AMD - DDR4-SDRAM - 128 GB - DIMM\r\n', 7, 24, 'Gigabyte', 'Mainboard'),
@@ -168,7 +188,7 @@ INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `warenkorb`
+-- Tabellenstruktur für Tabelle `warenkorb`
 --
 
 CREATE TABLE `warenkorb` (
@@ -177,10 +197,18 @@ CREATE TABLE `warenkorb` (
   `menge` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `warenkorb`
+--
+
+INSERT INTO `warenkorb` (`user_id`, `artikel_id`, `menge`) VALUES
+(1, 21, 1),
+(1, 13, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `wishlist`
+-- Tabellenstruktur für Tabelle `wishlist`
 --
 
 CREATE TABLE `wishlist` (
@@ -189,125 +217,133 @@ CREATE TABLE `wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexes for dumped tables
+-- Daten für Tabelle `wishlist`
+--
+
+INSERT INTO `wishlist` (`user_id`, `artikel_id`) VALUES
+(1, 21),
+(1, 13);
+
+--
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `accounts`
+-- Indizes für die Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `artikel_bestellungen`
+-- Indizes für die Tabelle `artikel_bestellungen`
 --
 ALTER TABLE `artikel_bestellungen`
   ADD KEY `ab_bestellung_fk` (`bestellung_id`),
   ADD KEY `ab_artikel_fk` (`artikel_id`);
 
 --
--- Indexes for table `bestellungen`
+-- Indizes für die Tabelle `bestellungen`
 --
 ALTER TABLE `bestellungen`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `bst_user_fk` (`user_id`);
 
 --
--- Indexes for table `bewertungen`
+-- Indizes für die Tabelle `bewertungen`
 --
 ALTER TABLE `bewertungen`
   ADD KEY `b_user_fk` (`user_id`),
   ADD KEY `b_artikel_fk` (`artikel_id`);
 
 --
--- Indexes for table `kommentare`
+-- Indizes für die Tabelle `kommentare`
 --
 ALTER TABLE `kommentare`
   ADD KEY `kom_user_fk` (`user_id`),
   ADD KEY `kom_artikel_fk` (`artikel_id`);
 
 --
--- Indexes for table `produkte`
+-- Indizes für die Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `warenkorb`
+-- Indizes für die Tabelle `warenkorb`
 --
 ALTER TABLE `warenkorb`
   ADD KEY `user_fk` (`user_id`),
   ADD KEY `artikel_fk` (`artikel_id`);
 
 --
--- Indexes for table `wishlist`
+-- Indizes für die Tabelle `wishlist`
 --
 ALTER TABLE `wishlist`
   ADD KEY `wl_artikel_fk` (`artikel_id`),
   ADD KEY `wl_user_fk` (`user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
+-- AUTO_INCREMENT für Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `bestellungen`
+-- AUTO_INCREMENT für Tabelle `bestellungen`
 --
 ALTER TABLE `bestellungen`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `produkte`
+-- AUTO_INCREMENT für Tabelle `produkte`
 --
 ALTER TABLE `produkte`
   MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
--- Constraints for dumped tables
+-- Constraints der exportierten Tabellen
 --
 
 --
--- Constraints for table `artikel_bestellungen`
+-- Constraints der Tabelle `artikel_bestellungen`
 --
 ALTER TABLE `artikel_bestellungen`
   ADD CONSTRAINT `ab_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `ab_bestellung_fk` FOREIGN KEY (`bestellung_id`) REFERENCES `bestellungen` (`ID`);
 
 --
--- Constraints for table `bestellungen`
+-- Constraints der Tabelle `bestellungen`
 --
 ALTER TABLE `bestellungen`
   ADD CONSTRAINT `bst_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints for table `bewertungen`
+-- Constraints der Tabelle `bewertungen`
 --
 ALTER TABLE `bewertungen`
   ADD CONSTRAINT `b_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `b_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints for table `kommentare`
+-- Constraints der Tabelle `kommentare`
 --
 ALTER TABLE `kommentare`
   ADD CONSTRAINT `kom_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `kom_user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints for table `warenkorb`
+-- Constraints der Tabelle `warenkorb`
 --
 ALTER TABLE `warenkorb`
   ADD CONSTRAINT `artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
   ADD CONSTRAINT `user_fk` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`ID`);
 
 --
--- Constraints for table `wishlist`
+-- Constraints der Tabelle `wishlist`
 --
 ALTER TABLE `wishlist`
   ADD CONSTRAINT `wl_artikel_fk` FOREIGN KEY (`artikel_id`) REFERENCES `produkte` (`ID`),
