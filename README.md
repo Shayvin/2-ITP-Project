@@ -33,7 +33,3 @@ Frameworks verwenden wir:
 •	JQuery
 •	Bootstrap
 Other remarks
-
-Paypal Sandbox Account for Payments:
-E-Mail: sb-pyer926071395@personal.example.com
-Password: c;e1W^<O
