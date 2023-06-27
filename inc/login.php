@@ -14,8 +14,6 @@
   </form>
 </main>
     <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
     if(isset($_POST["submit"])) // Checkt ob submit geklickt wurde.
     {
       require("./config/dbaccess.php"); // Datenbankverbindung

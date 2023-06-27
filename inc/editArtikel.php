@@ -1,6 +1,4 @@
 <?php //zuerst alle Produktinformation aus der DB holen um sie als Defaultwert in das Formular zu schreiben
-error_reporting(E_ALL);
-  ini_set('display_errors', 1);
     $id = $_GET['id'];
     require("./config/dbaccess.php");
       $sql = "SELECT * FROM produkte WHERE ID = :id";

@@ -1,7 +1,5 @@
 <?php
 $isvalid = true;
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
     $id = $_GET['id'];
     //zuerst das entsprechende produkt aus der datenbank mithilfe $id finden und das entsprechende bild vom server holen
     require("./config/dbaccess.php");
@@ -82,9 +80,12 @@ $isvalid = true;
       </div>
       <hr>
       <h3>Preis: <?php echo $row["BRUTTO"] ?> €</h3>
-      <p> <?php echo $row["BESCHREIBUNG"] ?></p>      
-      <a class="btn btn-success btn-lg" position="absolute" href="index.php?site=chart-add&pid=<?php echo $_GET["id"] ?>">Warenkorb</a>
-      <a class="btn btn-warning btn-lg" position="absolute" href="index.php?site=wishlist-add&pid=<?php echo $_GET["id"] ?>">Wunschliste</a>
+      <p> <?php echo $row["BESCHREIBUNG"] ?></p>
+      <?php if(isset($_SESSION['username'])){ // Checkt ob der User eingeloggt ist
+      echo'
+      <a class="btn btn-success btn-lg" position="absolute" href="index.php?site=chart-add&pid='.$_GET["id"].'">Warenkorb</a>
+      <a class="btn btn-warning btn-lg" position="absolute" href="index.php?site=wishlist-add&pid='.$_GET["id"].'">Wunschliste</a>
+      '; }?>
       <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: <?php echo $row["BESTAND"] ?></a>
       <form action="" method="POST">
         <?php //input von 5 nach 1, aber in css file reversed, damits sich die sterne in die richtige Richtung füllen?>
@@ -165,7 +166,6 @@ $isvalid = true;
   </div>
 
   <?php
-  error_reporting(E_ALL);
           //Kommentar in DB hinzufügen
     if(isset($_POST) && isset($_POST['commentbtn'])){
       $sql = $mysql->prepare("INSERT INTO `kommentare` (`USER_ID`, `ARTIKEL_ID`, `TEXT`, `DATUM`)
@@ -185,10 +185,7 @@ $isvalid = true;
     <br>
 <?php
 
-  //recommendations sind produkte derselben Kategorie
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
-      
+  //recommendations sind produkte derselben Kategorie      
       $sql = "SELECT NAME, IMAGE, BRUTTO, ID FROM produkte WHERE KATEGORIE = :kategorie OR MARKE = :marke ORDER BY BRUTTO asc";
     
     $stmt = $mysql->prepare($sql);

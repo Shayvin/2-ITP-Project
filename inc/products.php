@@ -33,8 +33,6 @@
   <div class="row align-items-center justify-content-center">
     <h2><?php echo $_GET['kategorie_name'];?></h2>
 <?php
-  error_reporting(E_ALL);
-  ini_set('display_errors', 1);
     require("./config/dbaccess.php");
     
     
@@ -98,7 +96,7 @@ while ($row = $stmt->fetch()){
     imagecopyresampled($neuesBild, $original, 0, 0, 0, 0, 150, 150, imagesx($original), imagesy($original));
     imagejpeg($neuesBild, $angepasstes_image);
     }
-    
+
     // Ressourcen freigeben
     imagedestroy($original);
     imagedestroy($neuesBild);
