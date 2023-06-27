@@ -113,6 +113,7 @@
           <?php
           error_reporting(E_ALL);
           ini_set('display_errors', 1);
+          //check ob der user adminrechte hat oder nicht
           require("./config/dbaccess.php");
           $stmt = $mysql->prepare("SELECT ROLE FROM accounts WHERE USERNAME = :username");
           $stmt->bindParam(":username", $_SESSION["username"]);

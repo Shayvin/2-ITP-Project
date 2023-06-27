@@ -15,7 +15,8 @@
               $row = $stmt->fetch();
               $user_id = $row["ID"];
               echo "<input type='number' name='user_id' value=" . $user_id . " hidden />";
-              if ($user_id) {
+              if ($user_id) { //falls der user existiert
+                //initialisieren
                 $sum = 0;
                 $mwst = 0;
                 $shippingCost = 0;
@@ -146,9 +147,6 @@ for (var i = 0; i < cartItems.length; i++) {
   var item = cartItems[i];
   total += parseFloat(item.price) * parseInt(item.quantity);
 }
-
-// console.log("Total:", total);
-
         // Render the PayPal button
         paypal.Button.render({
 
@@ -199,10 +197,6 @@ for (var i = 0; i < cartItems.length; i++) {
                     paymentMade(data.orderID, data.payerID, data.paymentID, data.paymentToken);
                 });
             },
-            //jeglicher approve check in paymentMade
-            /*onApprove: function(data, actions) {
-              window.location.href = "index.php?site=order-success";
-            },*/
             onCancel: function (data, actions) {
               console.log("Payment cancelled");
             }
@@ -238,7 +232,6 @@ for (var i = 0; i < cartItems.length; i++) {
     }
 
     function processSuccessfulPayment(orderID, payerID, paymentID, paymentToken){
-      //saveOrder(orderID, payerID, paymentID, paymentToken);
       window.location.href = "index.php?site=order-success";
     }
 
@@ -250,22 +243,4 @@ for (var i = 0; i < cartItems.length; i++) {
       paragraph.appendChild(textNode);
       myPar.appendChild(paragraph);
     }
-    //jegliche Funktionalitäten von saveOrder auf paypal.php ausgelagert
-
-    /*function saveOrder(orderID, payerID, paymentID, paymentToken) {
-      //session variablen existieren anscheinend in von ajax geöffneten php nicht, daher geb ich sie manuell mit
-      var ajax = new XMLHttpRequest();
-      ajax.open("POST", "./inc/order-save.php", true);
-      ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-
-      ajax.onreadystatechange = function () {
-        if (this.readyState == 4) {
-          if (this.status == 200) {
-            var response = JSON.parse(this.responseText);
-          } else if (this.status == 500) {
-            console.log(this.responseText);
-          }
-        }
-      };
-    }*/
 </script>

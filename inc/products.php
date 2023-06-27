@@ -92,13 +92,13 @@ while ($row = $stmt->fetch()){
     // Originalbild laden
     $original = imagecreatefromjpeg($originalBild);
 
-    // Bildgröße ändern
+    //check obs schon edit_bild gibt und falls nicht speichern:
+    $handle = @fopen($angepasstes_image, 'r');
+    if(!$handle){
     imagecopyresampled($neuesBild, $original, 0, 0, 0, 0, 150, 150, imagesx($original), imagesy($original));
-
-  
-    // Neues Bild speichern
     imagejpeg($neuesBild, $angepasstes_image);
-
+    }
+    
     // Ressourcen freigeben
     imagedestroy($original);
     imagedestroy($neuesBild);
