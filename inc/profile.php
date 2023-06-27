@@ -108,3 +108,58 @@
     </div>
     </form>
 </main>
+
+<hr class="featurette-divider">   
+
+<div class="container mt-5 mb-5">
+  <h1 class="h3 mb-3 fw-normal">Meine Bestellungen</h1>
+    <div class="d-flex justify-content-center row">
+      <div class="d-flex flex-column col-md-8">
+        <div class="coment-bottom bg-white p-2 px-4">
+        
+          <?php
+            error_reporting(E_ALL);
+            ini_set('display_errors', 1);
+
+            require("./config/dbaccess.php"); // DB Connector eingebunden
+
+            // Join über drei Tabellen um die benötigten Daten herauszufiltern 
+             $sql = "SELECT a.NAME, a.IMAGE, a.BRUTTO, c.menge, k.datum FROM bestellungen k JOIN artikel_bestellungen c ON k.ID = c.bestellung_id JOIN produkte a ON a.ID = c.artikel_id WHERE k.user_id = :id ORDER BY k.datum desc";
+
+             $stmt = $mysql->prepare($sql);
+
+             $stmt->bindParam(":id", $_SESSION["userID"]); // Bindet SESSION mit variable
+             
+             $stmt->execute();
+         
+         while ($row = $stmt->fetch()){         //Neue Container werden erzeugt, solange Einträge vorhanden sind. 
+           $username = $_SESSION["username"];
+           $text = $row["NAME"];
+           $datum = $row["datum"];
+           $preis = $row["BRUTTO"];
+           $menge = $row["menge"];
+           $angepasstes_image = "./res/img/Artikelbilder/edit_" . $row["IMAGE"];
+          ?>
+          <div
+              class="commented-section mt-2">
+              <div class="d-flex flex-row align-items-center commented-user">
+                  <h5 class="mr-2"><?php echo $username?></h5><span class="dot mb-1"></span><span class="mb-1 ml-2"><?php echo $datum?></span>
+              </div>
+              <div class="d-flex flex-row align-items-center commented-user">
+                <div class="col-sm d-flex justify-content-center">
+                  <img src="<?php echo $angepasstes_image ?>" class="align-self-center" alt="...">
+                </div>
+                <div class="col-sm justify-content-center"><span><?php echo $text?></span>
+                  <hr class="small-divider">
+                  <div class="row justify-content-center">Bestellte Menge: <?php echo $menge ?></div>
+                  <hr class="small-divider">
+                  <div class="row justify-content-center">Preis pro Stück: <?php echo $preis ?></div>
+                </div>
+                  
+              </div>
+          </div>  
+          <?php } ?>  
+        </div>
+      </div>
+    </div>
+  </div>

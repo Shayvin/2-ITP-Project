@@ -17,6 +17,10 @@ body {
   margin: 3rem 0;
 }
 
+.small-divider {
+  margin: 3px;
+}
+
 .featurette-heading {
   letter-spacing: -.05rem;
 }
