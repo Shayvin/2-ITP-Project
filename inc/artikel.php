@@ -3,26 +3,20 @@ $isvalid = true;
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
     $id = $_GET['id'];
-
+    //zuerst das entsprechende produkt aus der datenbank mithilfe $id finden und das entsprechende bild vom server holen
     require("./config/dbaccess.php");
-      
-
       $sql = "SELECT * FROM produkte WHERE ID = :id";
-    
-    //echo $sort_type;
-    $stmt = $mysql->prepare($sql);
-    $stmt->bindParam(":id", $id);
-    //$stmt->bindParam(":sort_type", $sort_type);
-    $stmt->execute();
-    $row = $stmt->fetch();
-
-    $image_path = "./res/img/Artikelbilder/" . $row["IMAGE"];
-    $kategorie = $row["KATEGORIE"];
-    $marke = $row["MARKE"];
+      $stmt = $mysql->prepare($sql);
+      $stmt->bindParam(":id", $id);
+      $stmt->execute();
+      $row = $stmt->fetch();
+      $image_path = "./res/img/Artikelbilder/" . $row["IMAGE"];
+      $kategorie = $row["KATEGORIE"];
+      $marke = $row["MARKE"];
     //AB hier für die Sternbewertung
-
-    if(isset($_POST["Bewerten"])){
-        if(isset($_SESSION["userID"])){
+    if(isset($_POST["Bewerten"])){//falls buttonpress
+        if(isset($_SESSION["userID"])){//und user eingeloggt
+        //das holt deine bisherige bewertung aus der DB
         $isvalid = true;
         $rating = $_POST["rating"];
         $sqlcheck = "SELECT AVG(bewertung) from bewertungen where artikel_id = :id AND user_id= :user";
@@ -31,6 +25,7 @@ $isvalid = true;
         $stmt->bindParam(":user", $_SESSION["userID"]);
         $stmt->execute();
         $Bewertung = $stmt->fetch();
+        //falls nonexistent, wird ein neuer eintrag mit dem rating angelegt
         if($Bewertung[0] == NULL){
          $sqlnew = "INSERT INTO `bewertungen` (`user_id`, `artikel_id`, `bewertung`) VALUES (:user, :id, :sterne);";
          $stmt = $mysql->prepare($sqlnew);
@@ -39,6 +34,7 @@ $isvalid = true;
          $stmt->bindParam(":sterne", $rating);
          $stmt->execute();         
         }
+        //sonst wird der bestehende geupdated
         else{
           $sqlnew = "UPDATE `bewertungen` SET `bewertung`=:sterne WHERE user_id = :user and artikel_id = :id";
           $stmt = $mysql->prepare($sqlnew);
@@ -49,16 +45,17 @@ $isvalid = true;
         }
     }
     else{
-      $isvalid = false;
+      $isvalid = false; //repräsentiert ob man eingeloggt ist, da man nur dann bewerten kann
     }
   }
-
+  //holt durchschnitts bewertung vom server
   $sqlbewertung = "SELECT AVG(bewertung) FROM bewertungen WHERE artikel_id = :id";
   $stmtbewertung = $mysql->prepare($sqlbewertung);
   $stmtbewertung->bindParam(":id", $id);
   $stmtbewertung->execute();
   $Bewertung = $stmtbewertung->fetch();
   $Sternanzahl = 0;
+  //zeigt sie auf den nächsten stern gerundet an
   if ($Bewertung[0] != NULL){
   $Sternanzahl = round($Bewertung[0]);
   }
@@ -90,6 +87,7 @@ $isvalid = true;
       <a class="btn btn-warning btn-lg" position="absolute" href="index.php?site=wishlist-add&pid=<?php echo $_GET["id"] ?>">Wunschliste</a>
       <a href="#" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">Lagerstand: <?php echo $row["BESTAND"] ?></a>
       <form action="" method="POST">
+        <?php //input von 5 nach 1, aber in css file reversed, damits sich die sterne in die richtige Richtung füllen?>
           <div class="rating">
             <input type="radio" id="star5" name="rating" value="5" <?php if($Sternanzahl == 5) echo "checked";?> />
             <label for="star5" title="5 Sterne">&#9733;</label>
@@ -168,7 +166,7 @@ $isvalid = true;
 
   <?php
   error_reporting(E_ALL);
-  
+          //Kommentar in DB hinzufügen
     if(isset($_POST) && isset($_POST['commentbtn'])){
       $sql = $mysql->prepare("INSERT INTO `kommentare` (`USER_ID`, `ARTIKEL_ID`, `TEXT`, `DATUM`)
                               VALUES (:user_id, :artikel_id, :text, now())");
@@ -186,6 +184,8 @@ $isvalid = true;
     <h2>Könnte für Sie interessant sein</h2>
     <br>
 <?php
+
+  //recommendations sind produkte derselben Kategorie
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
       

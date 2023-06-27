@@ -1,4 +1,4 @@
-<?php
+<?php //zuerst alle Produktinformation aus der DB holen um sie als Defaultwert in das Formular zu schreiben
 error_reporting(E_ALL);
   ini_set('display_errors', 1);
     $id = $_GET['id'];
@@ -86,7 +86,9 @@ $sql->execute();
 }
 
 if(isset($_POST['editarticle'])){
-    if(!empty($_POST['name'])){
+    //falls man editen will, wird jedes Feld auf Änderungen überprüft und je nachdem geändert
+    //um versehentlichem löschen vorzubeugen, kann man dabei nicht einfach ein Feld zur Gänze entfernen (!empty checks)
+    if(!empty($_POST['name'])){ 
       $sql = $mysql->prepare("UPDATE produkte
                       SET name= :Pname
                       WHERE id= :id");
@@ -95,7 +97,6 @@ if(isset($_POST['editarticle'])){
       $sql->execute();
     }
     if (file_exists($_FILES['image']['tmp_name']) || is_uploaded_file($_FILES['image']['tmp_name'])) {
-    //if(isset($_FILES['image'])){ hat nicht funktioniert
       //Die Bilder erstmal vom server löschen
       $stmt = $mysql->prepare("SELECT image
       FROM produkte
@@ -123,7 +124,7 @@ if(isset($_POST['editarticle'])){
           imagejpeg($JPGimage, $imagepath, 100);
           imagedestroy($JPGimage);
       }
-      else{
+      else{ //fall jpg
       $imagename= $image["name"];
       $imagepath = "./res/img/Artikelbilder/".$image["name"];
       move_uploaded_file($image['tmp_name'], $imagepath);
@@ -185,7 +186,4 @@ if(isset($_POST['editarticle'])){
       $sql->execute();
     }
 }
-
-
-
 ?>

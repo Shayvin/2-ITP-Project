@@ -13,7 +13,7 @@
           <tbody>
           <?php
             require_once("./config/dbaccess.php"); // db access
-            if (isset($_SESSION["userID"])) {
+            if (isset($_SESSION["userID"])) { //nur für eingeloggte user
               $stmt_wish = $mysql->prepare("SELECT wl.artikel_id, p.NAME, p.IMAGE, p.BRUTTO FROM wishlist wl INNER JOIN produkte p ON wl.artikel_id = p.ID WHERE wl.user_id = :id");
               $stmt_wish->execute(array(":id" => $_SESSION["userID"]));
               for ($i = 0; $i < $stmt_wish->rowCount(); $i++) {

@@ -46,7 +46,7 @@
 <?php
 if(isset($_POST['newarticle'])){
   $image = $_FILES["image"];
-  $fileType = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+  $fileType = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION)); //findet heraus welche file endung
   if ($fileType === 'png') {
       // Neuen Dateinamen generieren
       $imagename = pathinfo($image['name'], PATHINFO_FILENAME).'.jpg';
@@ -56,11 +56,12 @@ if(isset($_POST['newarticle'])){
       imagejpeg($JPGimage, $imagepath, 100);
       imagedestroy($JPGimage);
   }
-  else{
-  $imagename= $image["name"];
-  $imagepath = "./res/img/Artikelbilder/".$image["name"];
-  move_uploaded_file($image['tmp_name'], $imagepath);
+  else{ //sonst reicht simples abspeichern
+    $imagename= $image["name"];
+    $imagepath = "./res/img/Artikelbilder/".$image["name"];
+    move_uploaded_file($image['tmp_name'], $imagepath);
   }
+  //produkt in DB einfügen
   require("./config/dbaccess.php");
       $sql = $mysql->prepare("INSERT INTO `produkte` (`NAME`, `IMAGE`, `ARTNR`, `BRUTTO`, `BESCHREIBUNG`, `BESTAND`, `MARKE`, `KATEGORIE`)
                               VALUES (:Pname, :img, :Artnr, :preis, :descr, :bestand, :marke, :kategorie)");

@@ -1,12 +1,9 @@
 <?php
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
-  if(isset($_SESSION["username"])) //if(isset($_GET["id"])) // Wenn get variable in der URL gesetzt  
-  {
-    //if(!empty($_GET["id"])) // & wenn sie nicht leer ist
-    
+  if(isset($_SESSION["username"])){ //nur für eingeloggte user verfügbar 
         require("./config/dbaccess.php"); // DB Connector eingebunden
-        if(isset($_POST["submit"])) // Wenn submit gedrückt wurde
+        if(isset($_POST["submit"])) // Wenn submit gedrückt wurde, um Accountdaten zu ändern
         {
             $stmt = $mysql->prepare("UPDATE accounts SET VORNAME = :firstname, NACHNAME = :lastname, ADRESSE = :adresse, PLZ = :plz, EMAIL = :email WHERE USERNAME = :id"); // Prepare SQL Statement
             $stmt->execute(array(":firstname" => $_POST["firstname"], ":lastname" => $_POST["lastname"], ":adresse" => $_POST["adresse"], ":plz" => $_POST["plz"], ":email" => $_POST["email"], ":id" => $_SESSION["username"])); // Setze lokale Variablen gleich der POST/GET und führe aus

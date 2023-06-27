@@ -88,8 +88,14 @@ if(isset($_POST['edituser'])){
   }
 }
 
+//check ob der user adminrechte hat oder nicht
+require("./config/dbaccess.php");
+$stmt = $mysql->prepare("SELECT ROLE FROM accounts WHERE USERNAME = :username");
+$stmt->bindParam(":username", $_SESSION["username"]);
+$stmt->execute();
+$row = $stmt->fetch();
 
-if (isset($_SESSION['username'])){ //content nur für admin, aber derweil noch nicht implementiert, daher für user
+if ($row["ROLE"] == 1){ //content nur für admin
 require("./config/dbaccess.php");
 $stmt = $mysql->prepare("SELECT * FROM accounts"); // Select Statement preparen
 $stmt->execute(); // Wird ausgeführt
