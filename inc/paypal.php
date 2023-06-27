@@ -26,10 +26,6 @@ foreach($warenkorb as $artikel){
     }
 }
 if($sufficient){ //dieser code managed das paypal backend
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, 'https://api-m.sandbox.paypal.com/v1/oauth2/token');
